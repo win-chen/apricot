@@ -1,19 +1,25 @@
 SESSION = session
 FE_DIR = goldenrod
 BE_DIR = proto-server
+PY_DIR = pythie
 
 build-frontend:
 	cd goldenrod && \
 	npm install
 
-build-backend:
+build-backend-go:
 	cd proto-server && \
 	go build server.go
 
-build: build-frontend build-backend
+build-backend-py:
+	cd pythie && \
+	poetry build
 
-tmux-setup:
-	@printf "hello"
+build: build-frontend build-backend
+	printf "npm"
+
+run-dev:
+	@printf "running dev tmux"
 	# Create new session
 	@tmux new-session -d -s $(SESSION)
 
@@ -22,22 +28,28 @@ tmux-setup:
 	@tmux split-window -v
 	@tmux select-pane -t 0
 	@tmux split-window -v
+	@tmux select-pane -t 0
+	@tmux split-window -h
 
 	# Configure each pane
-	# Top left - Frontend
+	# Top left - Frontend Server
 	@tmux select-pane -t 0
-	@tmux send-keys "cd $(CURDIR)/$(FE_DIR) && clear && echo 'Starting Frontend...' && npm run dev" C-m
+	@tmux send-keys "cd $(CURDIR)/$(FE_DIR) && clear && echo 'Starting Frontend Server...' && npm run dev" C-m
 
-	# Bottom left - Backend
+	# Bottom left - Backend Server
 	@tmux select-pane -t 1
-	@tmux send-keys "cd $(CURDIR)/$(BE_DIR) && clear && echo 'Starting Backend...' && go run server.go" C-m
+	@tmux send-keys "cd $(CURDIR)/$(BE_DIR) && clear && echo 'Starting Backend Server...' && go run github.com/99designs/gqlgen generate . && go run server.go" C-m
 
-	# Top right - System monitoring
+	# Top right - Frontend Codegen
 	@tmux select-pane -t 2
-	@tmux send-keys "htop" C-m
+	@tmux send-keys "cd $(CURDIR)/$(FE_DIR) && clear && echo 'Starting Frontend Codegen...' && npm run codegen" C-m
 
-	# Bottom right - Command shell
+	# Bottom Right - Python server
 	@tmux select-pane -t 3
+	@tmux send-keys "cd $(CURDIR)/$(PY_DIR) && clear && echo 'Starting python server...' && flask --app main run" C-m
+
+	# Bottom - Command shell
+	@tmux select-pane -t 4
 	@tmux send-keys "cd $(CURDIR) && clear && echo 'Command shell ready...'" C-m
 
 	# Set equal pane sizes
@@ -45,15 +57,3 @@ tmux-setup:
 
 	# Attach to session
 	@tmux attach-session -t $(SESSION)
-
-
-run-frontend-dev:
-	tmux new-session -d -s $(SESSION) 'cd goldenrod && npm run codegen'
-	tmux split-window;   
-	tmux send 'cd goldenrod && npm run dev' ENTER
-
-run-backend-dev:
-	tmux split-window
-	tmux send 'cd proto-server && go run github.com/99designs/gqlgen generate .';
-
-run-all: run-frontend-dev run-backend-dev
