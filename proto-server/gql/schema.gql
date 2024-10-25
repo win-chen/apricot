@@ -1,0 +1,58 @@
+type Node {
+    id: ID!
+    text: String!
+    x: Float!
+    y: Float!
+}
+
+input NodeUpdate {
+    text: String
+    x: Float
+    y: Float
+}
+
+
+input NodeCreate {
+    text: String!
+    x: Float!
+    y: Float!
+}
+
+type Edge {
+    label: String!
+    source: ID!
+    target: ID!
+}
+
+type Query {
+
+    node(id: ID!): Node
+
+    edge(srcId: ID!, destId: ID!): Edge
+
+    graph(nodeType: String): GraphFull
+
+    getNodesByDepth(id: ID!, depth: Int!): [GraphFull!]
+}
+
+type Mutation {
+  createNode(id: ID!, input: NodeCreate!): Node
+
+  updateNode(id: ID!, input: NodeUpdate!): Node
+
+  deleteNode(id: ID!): ID
+
+  createEdge(srcId: ID!, destId: ID!, label: String): Edge
+
+  deleteEdge(srcId: ID!, destId: ID!, label: String): Edge
+}
+
+type GraphFull {
+    nodes: [Node!]!
+    edges: [Edge!]!
+}
+
+type GraphSlim {
+    nodes: [ID!]
+    edges: [Edge!]
+}
