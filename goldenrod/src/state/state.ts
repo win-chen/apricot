@@ -52,3 +52,5 @@ export const renderedEdges = derived([graph.edgesInView], ([edges]) => edges);
 
 graph.nodes.subscribe((n) => console.log("nodes updated: ", n));
 // renderedNodes.subscribe((n) => console.log("nodes rendered: ", n.length));
+
+export const showGraphModal = writable({ x: 0, y: 0, isOpen: false });

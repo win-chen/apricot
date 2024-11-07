@@ -2,9 +2,7 @@
   import Panel from "src/components/Panel.svelte";
   import { initClient } from "src/graphql/client";
   import { getContextClient, createRequest } from "@urql/svelte";
-  import {
-    InitialQueryDocument,
-  } from "./graphql/queries";
+  import { InitialQueryDocument } from "./graphql/queries";
   import KeyboardCtrl from "./components/keyboard-ctrl/KeyboardCtrl.svelte";
   import { defaultShortcuts } from "./config/shortcuts";
   import Syncer from "./components/syncer/Syncer.svelte";
@@ -15,12 +13,16 @@
   import NodeEditor2 from "./components/NodeEditor2.svelte";
   import { editingNodeId } from "./state/state";
   import { setGraphFromGraphfull } from "./state/utils";
+  import { interactionTracker } from "./state/interaction-tracker";
+  import GraphModal from "./components/GraphModal.svelte";
 
   initClient();
   const client = getContextClient();
 
   let leftPanel: HTMLDivElement;
   const { store: appDimensions, observer } = createResizeStore();
+
+  interactionTracker.init(document);
 
   onMount(async () => {
     observer.observe(leftPanel);
@@ -58,6 +60,7 @@
       {#if $editingNodeId}
         <NodeEditor2 id={$editingNodeId}></NodeEditor2>
       {/if}
+      <GraphModal></GraphModal>
     </Application>
   </div>
   <div class="right-panel">

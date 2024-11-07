@@ -29,10 +29,12 @@
     "vitest": "^1.6.0"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^1.1.4",
     "@dagrejs/graphlib": "^2.2.4",
     "@urql/svelte": "^4.2.0",
     "graphlib-dot": "^0.6.4",
     "immer": "^10.1.1",
+    "jsdom": "^25.0.1",
     "lodash.debounce": "^4.0.8",
     "pixi.js": "^8.1.7",
     "svelte-fsm": "^1.2.0",
