@@ -106,7 +106,6 @@ export const bubble = (
   cb: (...args: any[]) => void | null,
   endNode: string
 ): void => {
-  debugger;
   if (!graph.hasNode(startNode)) {
     return;
   }

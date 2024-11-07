@@ -95,7 +95,6 @@ export const userInteractionTracker = <T extends Record<string, any>>(
 
     leaves.forEach((leaf) => inputTrie.setEdge(name, leaf));
 
-    debugger;
     // Activate any custom inputs
     input
       .flat()
@@ -122,10 +121,8 @@ export const userInteractionTracker = <T extends Record<string, any>>(
 
   const activateInput = (input: string, event?: MouseEvent): boolean => {
     let activatedAnAction = false;
-    debugger;
 
     const activate = (pathNode: string) => {
-      debugger;
       const childPath = `${pathNode}${DELIMITER}${input}`;
 
       if ((inputTrie.successors(pathNode) || []).includes(childPath)) {
