@@ -13,7 +13,7 @@
   import NodeEditor2 from "./components/NodeEditor2.svelte";
   import { editingNodeId } from "./state/state";
   import { setGraphFromGraphfull } from "./state/utils";
-  import { interactionTracker } from "./state/interaction-tracker";
+  import { interactionTracker } from "./config/interaction-tracker";
   import GraphModal from "./components/GraphModal.svelte";
 
   initClient();

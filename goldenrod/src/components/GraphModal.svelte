@@ -1,17 +1,26 @@
 <script lang="ts">
-  import { showGraphModal, graph } from "src/state/state";
+  import { showGraphModal, graph, hoveredNodeId } from "src/state/state";
   import Modal from "./Modal.svelte";
   import dot from "graphlib-dot";
-  import * as d3 from "d3-force";
   import { renderNode } from "src/state/actions_internal.ts/add-node";
   import { optimisticAddEdge } from "src/state/actions_internal.ts/optimistic";
   import type { Graph } from "@dagrejs/graphlib";
   import dagre from "@dagrejs/dagre";
+  import { updateNode } from "src/graphql/requests";
 
   let inputText = "";
 
+  const { nodes } = graph;
+
   const handleClose = () => {
     const input = dot.read(inputText);
+
+    // Update name of original node
+    // dagre typing is incorrect, casting to unknown
+    const graphName = (input.graph() as unknown as { id: string }).id;
+    const node = $nodes[$showGraphModal.id];
+    node.attr.text.set(graphName);
+
     const dGraph = new dagre.graphlib.Graph();
 
     // Set an object for the graph label
@@ -31,13 +40,25 @@
 
     dagre.layout(dGraph);
 
+    const offsetX = $showGraphModal.x - dGraph.graph().width! / 2;
+    const offsetY = $showGraphModal.y + 100;
+
+    let topMostNode = dGraph.nodes()[0];
+    const dGraphNode = (name: string) => dGraph.node(dGraph.nodes()[0]);
+
     dGraph.nodes().forEach((name) => {
-      const { x, y } = dGraph.node(name);
-      renderNode(name, x, y);
+      const node = dGraph.node(name);
+      const { x, y } = node;
+      renderNode(name, x + offsetX, y + offsetY);
+      if (dGraphNode(topMostNode).y > y) {
+        topMostNode = name;
+      }
     });
     dGraph.edges().forEach((edge) => {
       optimisticAddEdge(edge.v, edge.w);
     });
+
+    optimisticAddEdge($showGraphModal.id, topMostNode);
   };
 </script>
 

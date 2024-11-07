@@ -5,6 +5,7 @@ import { type Edge, type GraphFull } from "src/gql/graphql";
 import { EdgeLabel, type PixiEdge, type PixiNode } from "./types";
 import { edgeColor } from "src/config/colors";
 import { Graph, alg } from "@dagrejs/graphlib";
+import type { GraphStore } from "src/lib/svelte-utils/graphlib-store/graphlib-store";
 
 export const setGraphFromGraphfull = (assets: GraphFull) => {
   // Make render root node
@@ -36,6 +37,12 @@ export const readableNodePosition = (id: string) => {
   const { position } = get(graph.nodes)[id].ui;
   return derived(position, ({ top, left }) => ({ top, left }));
 };
+
+export const getNodeXY = (id: string) => {
+  const { x, y } = get(graph.nodes)[id].attr;
+  return { x: get(x), y: get(y) };
+};
+
 export const shouldRenderNode = (node: PixiNode) => {
   const { x, y } = node.attr;
   const { width, height } = get(node.ui.dimensions);
@@ -49,24 +56,16 @@ export const shouldRenderNode = (node: PixiNode) => {
 
 const getEdgeId = (src: string, dest: string) => ["edge", src, dest].join("_");
 
-export const edgeNodesFromId = (edgeId: string) => {
-  const [_, src, dest] = edgeId.split("_");
-  return { src, dest };
-};
-
 export const edgeToPixiEdge = (edge: Edge): PixiEdge => {
   return pixiEdge(edge.source, edge.target);
-};
-
-export const getNodesFromEdgeId = (edgeId: string) => {
-  const { src, dest } = edgeNodesFromId(edgeId);
-  return { src: get(graph.nodes)[src], dest: get(graph.nodes)[dest] };
 };
 
 export const pixiEdge = (src: string, dest: string) => {
   return {
     id: getEdgeId(src, dest),
     label: EdgeLabel.LINKED,
+    srcId: src,
+    destId: dest,
     src: readableNodePosition(src),
     dest: readableNodePosition(dest),
     color: edgeColor,
@@ -113,4 +112,12 @@ export const dijkstraHelper = () => {
       return false;
     },
   };
+};
+
+export const getEdgeNodes = (
+  graph: GraphStore<PixiNode, PixiEdge>,
+  edgeId: string
+) => {
+  const edge = get(graph.edges)[edgeId];
+  return { src: edge.srcId, dest: edge.destId };
 };

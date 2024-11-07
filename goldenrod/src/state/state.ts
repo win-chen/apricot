@@ -3,10 +3,10 @@ import { writableSet } from "src/lib/svelte-utils/set";
 import { derived, get, writable } from "svelte/store";
 import { type PixiNode, type PixiEdge } from "./types";
 import { RelativeRenderFrame } from "src/lib/svelte-utils/svelte-infinite-canvas/relative-render";
-import { edgeNodesFromId } from "./utils";
+import { withClusters } from "./with-clusters";
 import { Graph } from "@dagrejs/graphlib";
 import dot from "graphlib-dot";
-import { withClusters } from "./with-clusters";
+import { getEdgeNodes } from "./utils";
 
 // Node id of source for new edge
 export const proposedEdgeSrc = writable<string | undefined>(undefined); // Node id of target for new edge
@@ -32,7 +32,7 @@ export const currentSubgraphToDOT = () => {
   });
 
   get(graph.edgesInView).forEach((edge) => {
-    const { src, dest } = edgeNodesFromId(edge.id);
+    const { src, dest } = getEdgeNodes(graph, edge.id);
 
     subgraph.setEdge(src, dest);
   });
@@ -50,7 +50,6 @@ export const nodeIdsInFrame = writableSet<string>([]);
 export const renderedNodes = derived([graph.nodesInView], ([nodes]) => nodes);
 export const renderedEdges = derived([graph.edgesInView], ([edges]) => edges);
 
-graph.nodes.subscribe((n) => console.log("nodes updated: ", n));
 // renderedNodes.subscribe((n) => console.log("nodes rendered: ", n.length));
 
-export const showGraphModal = writable({ x: 0, y: 0, isOpen: false });
+export const showGraphModal = writable({ id: "", x: 0, y: 0, isOpen: false });
