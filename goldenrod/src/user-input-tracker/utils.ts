@@ -44,13 +44,6 @@ const _isStore = (value: any) => {
   return isStore;
 };
 
-export const isKeyboardEventStore = <T>(value: any): value is Writable<T> => {
-  if (!_isStore(value)) {
-    return false;
-  }
-  return get(value) instanceof KeyboardEvent;
-};
-
 export function isBooleanWritable(value: any): value is Writable<boolean> {
   if (!_isStore(value)) {
     return false;
