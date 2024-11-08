@@ -17,7 +17,7 @@ import {
   writePathTrie,
 } from "./path-trie";
 import { bubble } from "./path-trie";
-import { isBooleanWritable } from "./utils";
+import { getUnshiftedKey, isBooleanWritable } from "./utils";
 
 export const ROOT = "_";
 
@@ -197,8 +197,7 @@ export const userInteractionTracker = <T extends Record<string, any>>(
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
-    // const key = getUnshiftedKey(event.key) as Key;
-    const key = event.key;
+    const key = getUnshiftedKey(event.key);
     const activated = activateInput(key);
 
     // Prevent default of a shortcut has been activated
@@ -207,8 +206,8 @@ export const userInteractionTracker = <T extends Record<string, any>>(
     }
   };
   const onKeyUp = (event: KeyboardEvent) => {
-    // const key = getUnshiftedKey(event.key) as Key;
-    const key = event.key;
+    const key = getUnshiftedKey(event.key);
+
     deactivateInput(key);
   };
 

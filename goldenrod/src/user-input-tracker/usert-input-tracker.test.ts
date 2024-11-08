@@ -210,6 +210,7 @@ describe("user input tracker", () => {
     });
     window.document.dispatchEvent(event);
     expect(enter.onEnter).toHaveBeenCalledOnce();
+    expect(enter.onEnter).toHaveBeenCalledWith(event);
     expect(event.defaultPrevented).toBe(true);
   });
 });
