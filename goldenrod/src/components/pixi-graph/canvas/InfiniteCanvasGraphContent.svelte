@@ -1,6 +1,5 @@
 <script lang="ts">
   import { getContentContainer } from "src/components/pixi-svelte/context";
-  import InteractionManager from "src/state/interactions/InteractionManager.svelte";
   import {
     renderedEdges,
     renderedNodes,
@@ -19,8 +18,6 @@
     renderFrame.scale.set(scale);
   });
 </script>
-
-<InteractionManager></InteractionManager>
 
 <div class="container" style:width={`${width}px`} style:height={`${height}px`}>
   <!-- Edges must be in container below Nodes -->
