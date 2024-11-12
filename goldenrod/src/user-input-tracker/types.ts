@@ -63,6 +63,7 @@ export const keys = [
   "X",
   "Y",
   "Z",
+  "BACKSPACE",
 ] as const;
 export type Key = (typeof keys)[number];
 

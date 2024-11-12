@@ -1,7 +1,7 @@
 import { executeDeleteNode } from "src/graphql/requests";
 import { get } from "svelte/store";
 import { selectedNodeIds } from "../state/ui";
-import { optimisticRemoveNode } from "./optimistic";
+import { optimisticRemoveNode } from "../actions_internal.ts/optimistic";
 
 export const deleteSelectedNodes = () => {
   const nodeIds = [...get(selectedNodeIds)];
@@ -12,5 +12,3 @@ export const deleteSelectedNodes = () => {
     executeDeleteNode(id);
   });
 };
-
-export const undoDeleteSelectedNodes = ({ nodeIds }) => {};

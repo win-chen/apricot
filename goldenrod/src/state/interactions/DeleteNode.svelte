@@ -6,7 +6,7 @@
     keyboardInput,
     pressEvent,
   } from "src/components/keyboard-ctrl/keyboard-input";
-  import { deleteSelectedNodes } from "src/state/actions_internal.ts/delete-selection";
+  import { deleteSelectedNodes } from "src/state/actions_2.ts/delete-selection";
 
   rootFsmTransitions.on(`${InteractionState.SELECT}:enter`, () => {
     keyboardInput.events.on(pressEvent(Key.BACKSPACE), deleteSelectedNodes);

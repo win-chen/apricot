@@ -3,6 +3,7 @@ import { createAction } from "src/user-input-tracker/user-input-tracker";
 import { get } from "svelte/store";
 import { addEdge } from "../actions_2.ts/add-edge";
 import { addNodeOnClick } from "../actions_2.ts/add-node";
+import { deleteSelectedNodes } from "../actions_2.ts/delete-selection";
 import { toggleSelect } from "../actions_2.ts/select-node";
 import { getNodeXY } from "../utils";
 import { proposedEdgeSrc } from "./add-edge";
@@ -36,6 +37,10 @@ export const appActions = {
   addEdge_reset: createAppAction({
     input: [["E", "not:node_is_hovered"], "CLICK"],
     onEnter: addEdge.clear,
+  }),
+  deleteNodes: createAppAction({
+    input: ["BACKSPACE"],
+    onEnter: deleteSelectedNodes,
   }),
   graph_modal: createAppAction({
     input: ["node_is_hovered", "B"],
