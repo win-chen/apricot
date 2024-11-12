@@ -1,13 +1,14 @@
 <script lang="ts">
+  import { interactionTracker } from "src/state/interaction-tracker";
   import {
     currentSubgraphToDOT,
     graph,
     pointerPos,
     selectedNodeIds,
-  } from "src/state/state";
-  import { lastSync, pauseSync } from "./syncer/store";
-  import ShortcutList from "./ShortcutList.svelte";
+  } from "src/state/state/index";
   import { get } from "svelte/store";
+  import ShortcutList from "./ShortcutList.svelte";
+  import { lastSync, pauseSync } from "./syncer/store";
 
   const { nodes } = graph;
 
@@ -27,6 +28,8 @@
       })
       .catch(console.log);
   };
+
+  const { activeLeaves } = interactionTracker;
 </script>
 
 <div class="container">
@@ -56,6 +59,8 @@
   <br />
 
   <ShortcutList></ShortcutList>
+
+  <div>Active leaves: {[...$activeLeaves].join(", ")}</div>
 </div>
 
 <style>

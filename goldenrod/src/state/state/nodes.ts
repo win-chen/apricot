@@ -1,14 +1,12 @@
-import { writable, derived, get } from "svelte/store";
-import { type Node, type GraphFull } from "src/gql/graphql";
-import { deepWritable } from "src/lib/svelte-utils/deep-writable";
-import { proposedEdgeSrc } from "./state";
 import { cardColor, hoverForEdgeCreate } from "src/config/colors";
-import { hoveredNodeId, selectedNodeIds } from "./state";
-import { renderFrame } from "./state";
-import { InteractionState } from "./fsms/types";
-import { rootFsm } from "./fsms/root-fsm";
-import { type PixiNode, type UI } from "./types";
-import { type Attrs } from "./types";
+import { type Node } from "src/gql/graphql";
+import { deepWritable } from "src/lib/svelte-utils/deep-writable";
+import { derived, get, writable } from "svelte/store";
+import { type Attrs, type PixiNode, type UI } from "../types";
+import { proposedEdgeSrc } from "./add-edge";
+import { appActions } from "./app-actions";
+import { renderFrame } from "./render-graph";
+import { hoveredNodeId, selectedNodeIds } from "./ui";
 
 export type DerivedNodeData = ReturnType<typeof deriveNodeData>;
 
@@ -63,12 +61,9 @@ const deriveNodeData = (nodeStore: Attrs) => {
   const isHovered = derived(hoveredNodeId, ($id) => id === $id);
 
   const surfaceColor = derived(
-    [rootFsm, isHovered, proposedEdgeSrc],
-    ([$rootFsm, $isHovered, $proposedEdgeSrc]) => {
-      if ($rootFsm == InteractionState.ADD_EDGE && $isHovered) {
-        return hoverForEdgeCreate;
-      }
-      if ($proposedEdgeSrc == id) {
+    [isHovered, proposedEdgeSrc, appActions.addEdge_.store],
+    ([$isHovered, $proposedEdgeSrc, $addingEdge]) => {
+      if ($proposedEdgeSrc == id || ($addingEdge && $isHovered)) {
         return hoverForEdgeCreate;
       }
       return cardColor;

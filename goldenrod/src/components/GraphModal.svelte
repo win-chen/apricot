@@ -1,12 +1,10 @@
 <script lang="ts">
-  import { showGraphModal, graph, hoveredNodeId } from "src/state/state";
-  import Modal from "./Modal.svelte";
-  import dot from "graphlib-dot";
-  import { renderNode } from "src/state/actions_internal.ts/add-node";
-  import { optimisticAddEdge } from "src/state/actions_internal.ts/optimistic";
-  import type { Graph } from "@dagrejs/graphlib";
   import dagre from "@dagrejs/dagre";
-  import { updateNode } from "src/graphql/requests";
+  import dot from "graphlib-dot";
+  import { renderNode } from "src/state/actions_2.ts/add-node";
+  import { optimisticAddEdge } from "src/state/actions_internal.ts/optimistic";
+  import { graph, showGraphModal } from "src/state/state/index";
+  import Modal from "./Modal.svelte";
 
   let inputText = "";
 
@@ -44,7 +42,7 @@
     const offsetY = $showGraphModal.y + 100;
 
     let topMostNode = dGraph.nodes()[0];
-    const dGraphNode = (name: string) => dGraph.node(dGraph.nodes()[0]);
+    const dGraphNode = (name: string) => dGraph.node(name);
 
     dGraph.nodes().forEach((name) => {
       const node = dGraph.node(name);

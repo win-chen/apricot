@@ -40,7 +40,7 @@ export const fsmConfig = {
   [InteractionState.ADD_NODE]: FsmConfigOption.ON_HOLD,
   [InteractionState.DRAG_NODE]: FsmConfigOption.ON_HOLD,
   [InteractionState.EDITING]: FsmConfigOption.ON_PRESS_OVER_NODE,
-  [InteractionState.PAN]: FsmConfigOption.ON_HOLD,
+  [InteractionState.PAN]: FsmConfigOption.ON_HOLD, 
   [InteractionState.ZOOM_IN]: FsmConfigOption.ON_HOLD,
   [InteractionState.ZOOM_OUT]: FsmConfigOption.ON_HOLD,
 };

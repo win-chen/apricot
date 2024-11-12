@@ -1,11 +1,14 @@
 <script lang="ts">
-  import PContainer from "../../pixi-svelte/PContainer.svelte";
-  import Node from "../node/Node.svelte";
-  import Edge from "../edge/Edge.svelte";
   import { getContentContainer } from "src/components/pixi-svelte/context";
-  import { renderedEdges, renderedNodes } from "src/state/state";
   import InteractionManager from "src/state/interactions/InteractionManager.svelte";
-  import { renderFrame } from "src/state/state";
+  import {
+    renderedEdges,
+    renderedNodes,
+    renderFrame,
+  } from "src/state/state/index";
+  import PContainer from "../../pixi-svelte/PContainer.svelte";
+  import Edge from "../edge/Edge.svelte";
+  import Node from "../node/Node.svelte";
 
   export let width: number;
   export let height: number;

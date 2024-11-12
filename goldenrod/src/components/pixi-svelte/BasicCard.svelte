@@ -1,9 +1,9 @@
 <script lang="ts">
   import { Circle, Container, Graphics } from "pixi.js";
   import { cardColor, hoverColor, selectColor } from "src/config/colors";
-  import { getContainer, setContainer } from "./context";
-  import { onDestroy } from "svelte";
   import { forwardEvents } from "src/lib/svelte-utils/forward-event";
+  import { onDestroy } from "svelte";
+  import { getContainer, setContainer } from "./context";
 
   export let x: number;
   export let y: number;
@@ -12,7 +12,7 @@
   export let opacity = 1;
 
   export let selected = false;
-  let hovered = false;
+  export let hovered = false;
 
   const parent = getContainer();
   export const card = new Container();
@@ -62,16 +62,6 @@
 
   /** Events ========== */
   forwardEvents(card);
-
-  const startHover = () => {
-    hovered = true;
-  };
-  const endHover = () => {
-    hovered = false;
-  };
-
-  card.on("mouseover", startHover);
-  card.on("mouseout", endHover);
 
   $: {
     x, y;

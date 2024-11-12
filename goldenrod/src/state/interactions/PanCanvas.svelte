@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { pointerPos } from "../state";
   import type { Container } from "pixi.js";
   import { createPan } from "../actions_internal.ts/pan-canvas";
-  import { renderFrame } from "../state";
   import { panFsm, PanState, panTransitions } from "../fsms/pan-canvas-fsm";
+  import { renderFrame } from "../state/render-graph";
+  import { pointerPos } from "../state/ui";
 
   // TODO: replace with scale store/state
   export let container: Container;

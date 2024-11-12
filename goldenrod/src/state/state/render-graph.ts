@@ -1,24 +1,12 @@
-import { createGraph } from "src/lib/svelte-utils/graphlib-store/graphlib-store";
-import { writableSet } from "src/lib/svelte-utils/set";
-import { derived, get, writable } from "svelte/store";
-import { type PixiNode, type PixiEdge } from "./types";
-import { RelativeRenderFrame } from "src/lib/svelte-utils/svelte-infinite-canvas/relative-render";
-import { withClusters } from "./with-clusters";
 import { Graph } from "@dagrejs/graphlib";
 import dot from "graphlib-dot";
-import { getEdgeNodes } from "./utils";
-
-// Node id of source for new edge
-export const proposedEdgeSrc = writable<string | undefined>(undefined); // Node id of target for new edge
-
-export const proposedEdgeDest = writable<string | undefined>(undefined);
-export const editingNodeId = writable<string | undefined>();
-export const pointerPos = writable({ x: 0, y: 0 });
-
-export const hoveredNodeId = writable<string | undefined>(undefined);
-// Set of nodeIds
-export const selectedNodeIds = writableSet<string>([]);
-export const editorId = writable<string | undefined>();
+import { createGraph } from "src/lib/svelte-utils/graphlib-store/graphlib-store";
+import { writableSet } from "src/lib/svelte-utils/set";
+import { RelativeRenderFrame } from "src/lib/svelte-utils/svelte-infinite-canvas/relative-render";
+import { derived, get, writable } from "svelte/store";
+import { type PixiEdge, type PixiNode } from "../types";
+import { getEdgeNodes } from "../utils";
+import { withClusters } from "../with-clusters";
 
 export const graph = withClusters(createGraph<PixiNode, PixiEdge>());
 

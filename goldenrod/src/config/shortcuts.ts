@@ -12,12 +12,14 @@ export const Shortcut = {
 } as const;
 
 export const defaultShortcuts: ShortcutConfig[] = [
-  { name: InteractionState.ADD_EDGE, keys: [Key.E] },
-  { name: InteractionState.ADD_NODE, keys: [Key.A] },
   { name: InteractionState.EDITING, keys: [Key.W] },
   { name: InteractionState.DRAG_NODE, keys: [Key.D] },
   { name: InteractionState.PAN, keys: [Key.F] },
   { name: InteractionState.ZOOM_IN, keys: [Key.PERIOD] },
   { name: InteractionState.ZOOM_OUT, keys: [Key.FORWARD_SLASH] },
-  { name: UserAction.COPY_HOVERED_ID, keys: [Key.C], onPress: copyHoveredId },
+  {
+    name: UserAction.COPY_HOVERED_ID,
+    keys: [Key.C],
+    onPress: copyHoveredId,
+  },
 ];

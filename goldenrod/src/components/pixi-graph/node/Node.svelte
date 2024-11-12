@@ -1,10 +1,10 @@
 <script lang="ts">
+  import type { Container } from "pixi.js";
   import BasicCard from "src/components/pixi-svelte/BasicCard.svelte";
   import TextDiv from "src/components/pixi-svelte/TextDiv.svelte";
-  import type { Container } from "pixi.js";
-  import { hoveredNodeId } from "src/state/state";
-  import { onMount } from "svelte";
+  import { hoveredNodeId } from "src/state/state/index";
   import type { PixiNode } from "src/state/types";
+  import { onMount } from "svelte";
 
   export let node: PixiNode;
   let card: Container;
@@ -12,8 +12,9 @@
   $: ({ text } = node.attr);
   $: ({ position, color, opacity } = node.ui);
   $: ({ top, left } = $position);
-  $: ({ surfaceColor, isSelected } = node.derived);
+  $: ({ surfaceColor, isSelected, isHovered } = node.derived);
 
+  // TODO: learn how to bind hoveredNodeId on some hover event on BasicCard
   const handleMouseover = () => {
     hoveredNodeId.set(node.id);
   };
@@ -35,6 +36,7 @@
   x={left}
   y={top}
   selected={$isSelected}
+  hovered={$isHovered}
   color={$color || $surfaceColor}
   opacity={$opacity}
 >

@@ -1,20 +1,20 @@
 <script lang="ts">
+  import { createRequest, getContextClient } from "@urql/svelte";
   import Panel from "src/components/Panel.svelte";
   import { initClient } from "src/graphql/client";
-  import { getContextClient, createRequest } from "@urql/svelte";
-  import { InitialQueryDocument } from "./graphql/queries";
-  import KeyboardCtrl from "./components/keyboard-ctrl/KeyboardCtrl.svelte";
-  import { defaultShortcuts } from "./config/shortcuts";
-  import Syncer from "./components/syncer/Syncer.svelte";
   import { onMount } from "svelte";
-  import { createResizeStore } from "./lib/resize-store";
-  import Application from "./components/pixi-svelte/Application.svelte";
-  import InfiniteCanvasGraphContent from "./components/pixi-graph/canvas/InfiniteCanvasGraphContent.svelte";
-  import NodeEditor2 from "./components/NodeEditor2.svelte";
-  import { editingNodeId } from "./state/state";
-  import { setGraphFromGraphfull } from "./state/utils";
-  import { interactionTracker } from "./config/interaction-tracker";
   import GraphModal from "./components/GraphModal.svelte";
+  import KeyboardCtrl from "./components/keyboard-ctrl/KeyboardCtrl.svelte";
+  import NodeEditor2 from "./components/NodeEditor2.svelte";
+  import InfiniteCanvasGraphContent from "./components/pixi-graph/canvas/InfiniteCanvasGraphContent.svelte";
+  import Application from "./components/pixi-svelte/Application.svelte";
+  import Syncer from "./components/syncer/Syncer.svelte";
+  import { defaultShortcuts } from "./config/shortcuts";
+  import { InitialQueryDocument } from "./graphql/queries";
+  import { createResizeStore } from "./lib/resize-store";
+  import { interactionTracker } from "./state/interaction-tracker";
+  import { editingNodeId } from "./state/state/ui";
+  import { setGraphFromGraphfull } from "./state/utils";
 
   initClient();
   const client = getContextClient();

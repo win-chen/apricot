@@ -1,7 +1,7 @@
-import { get, writable } from "svelte/store";
-import { nodeToPixiNode } from "../nodes";
 import type { Node } from "src/gql/graphql";
-import { graph, selectedNodeIds } from "../state";
+import { nodeToPixiNode } from "../state/nodes";
+import { graph } from "../state/render-graph";
+import { selectedNodeIds } from "../state/ui";
 import { pixiEdge } from "../utils";
 
 export const optimisticRemoveNode = (id: string) => {

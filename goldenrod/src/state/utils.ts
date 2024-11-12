@@ -1,11 +1,11 @@
-import { derived, get, writable } from "svelte/store";
-import { nodeToPixiNode } from "./nodes";
-import { graph, renderFrame } from "./state";
-import { type Edge, type GraphFull } from "src/gql/graphql";
-import { EdgeLabel, type PixiEdge, type PixiNode } from "./types";
-import { edgeColor } from "src/config/colors";
 import { Graph, alg } from "@dagrejs/graphlib";
+import { edgeColor } from "src/config/colors";
+import { type Edge, type GraphFull } from "src/gql/graphql";
 import type { GraphStore } from "src/lib/svelte-utils/graphlib-store/graphlib-store";
+import { derived, get, writable } from "svelte/store";
+import { nodeToPixiNode } from "./state/nodes";
+import { graph, renderFrame } from "./state/render-graph";
+import { EdgeLabel, type PixiEdge, type PixiNode } from "./types";
 
 export const setGraphFromGraphfull = (assets: GraphFull) => {
   // Make render root node

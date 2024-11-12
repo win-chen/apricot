@@ -4,19 +4,18 @@
     getListenerContainer,
   } from "src/components/pixi-svelte/context";
   import { trackPointer } from "src/state/interactions/track-pointer";
-  import { rootFsm } from "../fsms/root-fsm";
-  import DragNode from "./DragNode.svelte";
-  import { derived } from "svelte/store";
-  import { graph, hoveredNodeId } from "../state";
-  import AddEdge from "./AddEdge.svelte";
-  import AddNode from "./AddNode.svelte";
-  import { renderFrame } from "../state";
-  import SelectNode from "./SelectNode.svelte";
-  import PanCanvas from "./PanCanvas.svelte";
-  import Zoom from "./Zoom.svelte";
   import { onMount } from "svelte";
+  import { derived } from "svelte/store";
+  import { rootFsm } from "../fsms/root-fsm";
+  import { graph } from "../state/render-graph";
+  import { hoveredNodeId } from "../state/ui";
+  import AddEdge from "./AddEdge.svelte";
   import DeleteNode from "./DeleteNode.svelte";
+  import DragNode from "./DragNode.svelte";
   import OpenEditor from "./OpenEditor.svelte";
+  import PanCanvas from "./PanCanvas.svelte";
+  import SelectNode from "./SelectNode.svelte";
+  import Zoom from "./Zoom.svelte";
 
   const listener = getListenerContainer();
   // TODO: Instead of passing content, pass renderFrame
@@ -37,7 +36,6 @@
 
 <DragNode {listener} {hoveredNode} container={content}></DragNode>
 <AddEdge {listener}></AddEdge>
-<AddNode {listener} {renderFrame}></AddNode>
 <SelectNode {listener}></SelectNode>
 <PanCanvas {listener} container={content}></PanCanvas>
 <Zoom container={content}></Zoom>

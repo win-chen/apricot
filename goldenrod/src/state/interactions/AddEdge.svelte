@@ -1,14 +1,13 @@
 <script lang="ts">
   import type { Container } from "pixi.js";
+  import { createAddEdgeInstance } from "../actions_internal.ts/add-edge";
   import {
     addEdgeFsm,
     AddEdgeState,
     addEdgeTransitions,
   } from "../fsms/add-edge-fsm";
-    import { hoveredNodeId } from "../state";
-  import { createAddEdgeInstance } from "../actions_internal.ts/add-edge";
-  import { proposedEdgeDest } from "../state";
-  import { proposedEdgeSrc } from "../state";
+  import { proposedEdgeDest, proposedEdgeSrc } from "../state/add-edge";
+  import { hoveredNodeId } from "../state/ui";
 
   export let listener: Container;
 
