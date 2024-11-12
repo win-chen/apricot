@@ -3,6 +3,7 @@ import { createAction } from "src/user-input-tracker/user-input-tracker";
 import { get } from "svelte/store";
 import { addEdge } from "../actions_2.ts/add-edge";
 import { addNodeOnClick } from "../actions_2.ts/add-node";
+import { toggleSelect } from "../actions_2.ts/select-node";
 import { getNodeXY } from "../utils";
 import { proposedEdgeSrc } from "./add-edge";
 import { hoveredNodeId } from "./ui";
@@ -49,9 +50,9 @@ export const appActions = {
       });
     },
   }),
-  select: createAppAction({
-    input: ["C"], // TODO: fix, is dummy
-    onEnter: () => {},
+  selectNode: createAppAction({
+    input: ["S", "CLICK"], // TODO: fix, is dummy
+    onEnter: toggleSelect,
   }),
 } as const;
 

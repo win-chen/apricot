@@ -2,7 +2,7 @@
   import { rootFsmTransitions } from "../fsms/root-fsm";
   import type { Container } from "pixi.js";
   import { InteractionState } from "../fsms/types";
-  import { toggleSelect } from "src/state/actions_internal.ts/select-node";
+  import { toggleSelect } from "src/state/actions_2.ts/select-node";
 
   export let listener: Container;
 
