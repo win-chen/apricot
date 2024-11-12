@@ -1,10 +1,9 @@
 /** @vitest-environment jsdom */
 
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { get, writable } from "svelte/store";
+import { describe, expect, it, vi } from "vitest";
 import type { ConfigList } from "./types";
-import { userInteractionTracker } from "./user-input-tracker";
-import { writable } from "svelte/store";
-import dot from "graphlib-dot";
+import { createAction, userInteractionTracker } from "./user-input-tracker";
 
 type EventTarget = Element | Document | Window;
 
@@ -37,11 +36,11 @@ export const dispatchKeyboardEvent = (
 
 describe("user input tracker", () => {
   it("destroys", () => {
-    const configList: ConfigList<{}> = {
-      enter: {
+    const configList: ConfigList = {
+      enter: createAction({
         input: ["A", "B"],
         onEnter: vi.fn(),
-      },
+      }),
     };
 
     const { enter } = configList;
@@ -59,11 +58,11 @@ describe("user input tracker", () => {
   });
 
   it("activates actions on enter", () => {
-    const configList: ConfigList<{}> = {
-      enter: {
+    const configList: ConfigList = {
+      enter: createAction({
         input: ["A", "B"],
         onEnter: vi.fn(),
-      },
+      }),
     };
     const { enter } = configList;
 
@@ -80,11 +79,11 @@ describe("user input tracker", () => {
   });
 
   it("activates actions on leave", () => {
-    const configList: ConfigList<{}> = {
-      exit: {
+    const configList: ConfigList = {
+      exit: createAction({
         input: ["A", "C"],
         onLeave: vi.fn(),
-      },
+      }),
     };
     const { exit } = configList;
 
@@ -100,12 +99,43 @@ describe("user input tracker", () => {
     expect(exit.onLeave).toHaveBeenCalledOnce();
   });
 
-  it("prevents default when an action has been activated", () => {
-    const configList: ConfigList<{}> = {
-      enter: {
+  it("does not activate other actions", () => {
+    const configList: ConfigList = {
+      shortcutOne: createAction({
+        input: ["A"],
+        onEnter: vi.fn(),
+        onLeave: vi.fn(),
+      }),
+      shortcutTwo: createAction({
         input: ["A", "B"],
         onEnter: vi.fn(),
-      },
+        onLeave: vi.fn(),
+      }),
+    };
+    const { shortcutOne, shortcutTwo } = configList;
+
+    const tracker = userInteractionTracker({});
+    tracker.init(window.document);
+    tracker.register(configList);
+
+    dispatchKeyboardEvent(window.document, "keydown", "A");
+    expect(shortcutOne.onEnter).toHaveBeenCalledOnce();
+    expect(shortcutTwo.onEnter).not.toHaveBeenCalled();
+
+    (shortcutOne.onEnter as ReturnType<typeof vi.fn>).mockClear();
+    dispatchKeyboardEvent(window.document, "keydown", "B");
+    expect(shortcutTwo.onEnter).toHaveBeenCalledOnce();
+    expect(shortcutOne.onEnter).not.toHaveBeenCalled();
+
+    tracker.destroy(window.document);
+  });
+
+  it("prevents default when an action has been activated", () => {
+    const configList: ConfigList = {
+      enter: createAction({
+        input: ["A", "B"],
+        onEnter: vi.fn(),
+      }),
     };
     const { enter } = configList;
 
@@ -125,10 +155,10 @@ describe("user input tracker", () => {
 
     const customInput = { element_hovered: elementHovered } as const;
     const configList: ConfigList<typeof customInput> = {
-      enter: {
+      enter: createAction({
         input: ["element_hovered", "B"],
         onEnter: vi.fn(),
-      },
+      }),
     };
     const { enter } = configList;
 
@@ -147,10 +177,10 @@ describe("user input tracker", () => {
 
     const customInput = { element_hovered: elementHovered } as const;
     const configList: ConfigList<typeof customInput> = {
-      enter: {
+      enter: createAction({
         input: [["element_hovered", "B"]],
         onEnter: vi.fn(),
-      },
+      }),
     };
     const { enter } = configList;
 
@@ -169,19 +199,16 @@ describe("user input tracker", () => {
 
     const customInput = { element_hovered: elementHovered } as const;
     const configList: ConfigList<typeof customInput> = {
-      enter: {
+      enter: createAction({
         input: ["not:element_hovered", "B"],
         onEnter: vi.fn(),
-      },
+      }),
     };
     const { enter } = configList;
 
     const tracker = userInteractionTracker(customInput);
     tracker.init(window.document);
     tracker.register(configList);
-
-    console.log(tracker.activeLeaves);
-    console.log(dot.write(tracker.inputTrie));
 
     expect(enter.onEnter).not.toHaveBeenCalled();
     // Only press B because element_hovered is already false
@@ -190,11 +217,11 @@ describe("user input tracker", () => {
   });
 
   it("supports CLICK and passes click event actions ending with CLICK input", () => {
-    const configList: ConfigList<{}> = {
-      enter: {
+    const configList: ConfigList = {
+      enter: createAction({
         input: ["A", "CLICK"],
         onEnter: vi.fn(),
-      },
+      }),
     };
     const { enter } = configList;
 
@@ -212,5 +239,29 @@ describe("user input tracker", () => {
     expect(enter.onEnter).toHaveBeenCalledOnce();
     expect(enter.onEnter).toHaveBeenCalledWith(event);
     expect(event.defaultPrevented).toBe(true);
+  });
+
+  it("updates the store", () => {
+    const configList: ConfigList = {
+      enter: createAction({
+        input: ["A", "CLICK"],
+        onEnter: vi.fn(),
+      }),
+    };
+
+    const tracker = userInteractionTracker({});
+    tracker.init(window.document);
+    tracker.register(configList);
+
+    dispatchKeyboardEvent(window.document, "keydown", "A");
+    expect(get(configList.enter.store)).toBeFalsy();
+    const event = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+    });
+    window.document.dispatchEvent(event);
+    expect(get(configList.enter.store)).toBeTruthy();
+    dispatchKeyboardEvent(window.document, "keyup", "A");
+    expect(get(configList.enter.store)).toBeFalsy();
   });
 });

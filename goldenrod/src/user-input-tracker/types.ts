@@ -1,3 +1,5 @@
+import type { Writable } from "svelte/store";
+
 export interface DurationConfig {
   onEnter: Function;
   interval?: [Function, number]; // Convenience function?
@@ -24,9 +26,10 @@ export interface Config<T extends Record<string, any>> {
   onEnter?: Function;
   onLeave?: Function;
   forDuration?: DurationConfig;
+  store: Writable<boolean>;
 }
 
-export type ConfigList<T extends Record<string, any>> = Record<
+export type ConfigList<T extends Record<string, any> = {}> = Record<
   string,
   Config<T>
 >;

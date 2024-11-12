@@ -98,27 +98,36 @@ export const deletePathFromSearchTree = (graph: Graph, pathNode: string) => {
  * @param graph graph containing the search tree
  * @param startNode bubbles up from this node - INCLUSIVE, runs callback on the node
  * @param cb Return null from the callback to cancel remaining bubbling
- * @param endNode stops at this node - INCLUSIVE, runs callback on the node
+ * @param endNode stops at this node - EXCLUSIVE, runs callback on the node
+ * @param includeEndNode if true, also run callback on this node
  */
 export const bubble = (
   graph: Graph,
   startNode: string,
   cb: (...args: any[]) => void | null,
-  endNode: string
+  endNode: string,
+  includeEndNode = false
 ): void => {
   if (!graph.hasNode(startNode)) {
     return;
   }
 
+  if (startNode === endNode) {
+    if (includeEndNode) {
+      cb(startNode);
+    }
+    return;
+  }
+
   const result = cb(startNode);
 
-  if (result === null || startNode === endNode) {
+  if (result === null) {
     return;
   }
 
   const parent = getPrecedingPath(startNode);
 
-  bubble(graph, parent, cb, endNode);
+  bubble(graph, parent, cb, endNode, includeEndNode);
 };
 
 /**
