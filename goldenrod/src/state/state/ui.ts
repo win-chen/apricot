@@ -8,3 +8,5 @@ export const pointerPos = writable({ x: 0, y: 0 });
 
 export const selectedNodeIds = writableSet<string>([]);
 export const editorId = writable<string | undefined>();
+
+export const listener = writable<EventTarget | null>(null);

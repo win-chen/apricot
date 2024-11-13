@@ -1,17 +1,18 @@
 <script lang="ts">
-  import { Container, Rectangle, type Renderer } from "pixi.js";
-  import { Application } from "pixi.js";
+  import { Application, Container, Rectangle, type Renderer } from "pixi.js";
   import { backgroundColor } from "src/config/colors";
   import { handleError } from "src/lib/error-handler";
+  import { trackPointer } from "src/state/actions_internal.ts/track-pointer";
+  import { listener } from "src/state/state";
   import { onMount } from "svelte";
+  import { writable } from "svelte/store";
   import {
-    setContainer,
-    setInteractionCanvas,
-    setContentContainer,
-    setListenerContainer,
     setCanvasScale,
+    setContainer,
+    setContentContainer,
+    setInteractionCanvas,
+    setListenerContainer,
   } from "./context";
-    import { writable, type Writable } from "svelte/store";
 
   /** Props */
   export let width: number;
@@ -37,15 +38,20 @@
   setContentContainer(contentContainer);
   // init canvas scale
   canvasScale.set(contentContainer.scale.x);
-  contentContainer.on("custom-scale", () => canvasScale.set(contentContainer.scale.x));
+  contentContainer.on("custom-scale", () =>
+    canvasScale.set(contentContainer.scale.x),
+  );
   setCanvasScale(canvasScale);
 
-  // Listens to events from both containers 
+  // Listens to events from both containers
   const listenerContainer = new Container();
   listenerContainer.eventMode = "static";
   setListenerContainer(listenerContainer);
   listenerContainer.addChild(interactionCanvas);
   listenerContainer.addChild(contentContainer);
+
+  listenerContainer.on("globalpointermove", trackPointer);
+  listener.set(listenerContainer);
 
   // Resize based on width and height
   $: {
@@ -55,14 +61,13 @@
     app?.renderer?.resize(width, height);
   }
 
-
   onMount(async () => {
     app = new Application<Renderer<HTMLCanvasElement>>();
-    
+
     // debug
     // @ts-ignore
     globalThis.__PIXI_APP__ = app;
-    
+
     try {
       await app.init({
         width,

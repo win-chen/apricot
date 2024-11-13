@@ -38,6 +38,11 @@ export const readableNodePosition = (id: string) => {
   return derived(position, ({ top, left }) => ({ top, left }));
 };
 
+export const getNodeWritableXY = (id: string) => {
+  const { x, y } = get(graph.nodes)[id].attr;
+  return { x, y };
+};
+
 export const getNodeXY = (id: string) => {
   const { x, y } = get(graph.nodes)[id].attr;
   return { x: get(x), y: get(y) };

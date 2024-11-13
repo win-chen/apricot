@@ -3,7 +3,7 @@
     getContentContainer,
     getListenerContainer,
   } from "src/components/pixi-svelte/context";
-  import { trackPointer } from "src/state/interactions/track-pointer";
+  import { trackPointer } from "src/state/actions_internal.ts/track-pointer";
   import { onMount } from "svelte";
   import { derived } from "svelte/store";
   import { rootFsm } from "../fsms/root-fsm";

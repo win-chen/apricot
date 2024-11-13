@@ -25,7 +25,6 @@ export interface Config<T extends Record<string, any>> {
   input: (AvailableInputs<T> | AvailableInputs<T>[])[];
   onEnter?: Function;
   onLeave?: Function;
-  forDuration?: DurationConfig;
   store: Writable<boolean>;
 }
 

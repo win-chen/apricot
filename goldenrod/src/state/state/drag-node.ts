@@ -1,8 +1,58 @@
 import { Container } from "pixi.js";
 import { dragHelpers, type DragHelper } from "src/lib/svelte-utils/drag-helper";
 import { get, writable, type Readable } from "svelte/store";
-import { pointerPos } from "../state/ui";
+import { renderFrame } from ".";
+import { hoveredNodeId, pointerPos } from "../state/ui";
 import { type PixiNode } from "../types";
+import { getNodeWritableXY } from "../utils";
+
+interface DragInstance {
+  draggingId: string;
+  dragHelper: DragHelper;
+}
+
+const instance = writable<DragInstance | null>(null);
+
+const getNodePositionFromId = (id: string) => {
+  const { x, y } = getNodeWritableXY(id);
+
+  return writable({
+    x: get(x),
+    y: get(y),
+  });
+};
+
+const initDrag = () => {
+  const id = get(hoveredNodeId)!;
+  const nodePosition = getNodePositionFromId(id);
+  instance.set({
+    draggingId: id,
+    dragHelper: dragHelpers(nodePosition, pointerPos, get(renderFrame.scale)),
+  });
+};
+
+const startDrag = () => {
+  initDrag();
+  get(instance)
+};
+
+const doDrag = () => {
+  dragHelper?.update();
+};
+
+const finish = () => {
+  const draggedId = draggingId;
+  draggingId = undefined;
+
+  dragHelper?.end();
+
+  return draggedId;
+};
+
+// writable instance
+// scale: renderFrame.scale
+// nodePosition: { writable(x), writable(y) }
+// pointerPosition: readable {x, y}
 
 export const createDragInstance = (
   // TODO: replace with a scale UI writable
@@ -34,7 +84,7 @@ export const createDragInstance = (
       attr.y.set(val.y);
     });
 
-    dragHelper = dragHelpers(nodePos, pointerPos, containerForScale);
+    dragHelper = dragHelpers(nodePos, pointerPos, containerForScale.scale.x);
 
     draggingId = attr.id;
     dragHelper.start();

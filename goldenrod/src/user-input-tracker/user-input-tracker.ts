@@ -26,9 +26,18 @@ const getStore = (graph: Graph, action: string) => {
   return value;
 };
 
+// TODO: move to typescript utils. Extend to multiple keys
+type MakeSingleKeyOptional<T, K extends keyof T> = Partial<Pick<T, K>> &
+  Omit<T, K>;
+
+/**
+ * Automatically creates a store if a store is not given
+ * @param config
+ * @returns
+ */
 export const createAction = <T extends Record<string, any>>(
-  config: Omit<Config<T>, "store">
-): Config<T> => ({ ...config, store: writable(false) });
+  config: MakeSingleKeyOptional<Config<T>, "store">
+): Config<T> => ({ ...config, store: config.store || writable(false) });
 
 /**
  * Usage assuming "button_is_pressed" custom input has been set up:

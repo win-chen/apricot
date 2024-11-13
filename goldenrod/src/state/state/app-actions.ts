@@ -1,10 +1,12 @@
 import { showGraphModal } from "src/state/state/index";
-import { createAction } from "src/user-input-tracker/user-input-tracker";
-import { get } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { addEdge } from "../actions_2.ts/add-edge";
 import { addNodeOnClick } from "../actions_2.ts/add-node";
 import { deleteSelectedNodes } from "../actions_2.ts/delete-selection";
+import { dragNode } from "../actions_2.ts/drag-node";
 import { toggleSelect } from "../actions_2.ts/select-node";
+
+import { createAction as _createAction } from "src/user-input-tracker/user-input-tracker";
 import { getNodeXY } from "../utils";
 import { proposedEdgeSrc } from "./add-edge";
 import { hoveredNodeId } from "./ui";
@@ -12,10 +14,11 @@ import { hoveredNodeId } from "./ui";
 export const customInput = {
   node_is_hovered: hoveredNodeId,
   add_edge_source_node: proposedEdgeSrc,
+  is_dragging_node: writable(false),
 } as const;
 export type CustomInput = typeof customInput; // TODO: remove partial
 
-const createAppAction = createAction<CustomInput>;
+const createAppAction = _createAction<CustomInput>;
 
 export const appActions = {
   addNode: createAppAction({
@@ -41,6 +44,18 @@ export const appActions = {
   deleteNodes: createAppAction({
     input: ["BACKSPACE"],
     onEnter: deleteSelectedNodes,
+  }),
+  dragNode_: createAppAction({
+    input: ["D"],
+    store: customInput.is_dragging_node,
+  }),
+  dragNode_dragStart: createAppAction({
+    input: [["D", "node_is_hovered"], "CLICK"],
+    onEnter: dragNode.start,
+  }),
+  dragNode_drag: createAppAction({
+    input: ["is_dragging_node", "CLICK"],
+    onLeave: dragNode.finish,
   }),
   graph_modal: createAppAction({
     input: ["node_is_hovered", "B"],

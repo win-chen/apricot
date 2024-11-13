@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PixiNode } from "../types";
   import { dragFsm, DragState, dragTransitions } from "../fsms/drag-fsm";
-  import { createDragInstance } from "../actions_internal.ts/drag-node";
+  import { createDragInstance } from "../actions_2.ts/drag-node";
   import { updateNode } from "src/graphql/requests";
   import type { Readable } from "svelte/store";
   import type { Container } from "pixi.js";
