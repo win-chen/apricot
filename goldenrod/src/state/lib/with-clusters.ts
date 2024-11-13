@@ -11,13 +11,17 @@ import {
   type PixiNode,
 } from "src/state/stores/types";
 import { derived, get, writable } from "svelte/store";
+import * as uuid from "uuid";
 import type { GraphStore } from "../../lib/svelte-utils/graphlib-store/graphlib-store";
 import { getEdgeNodes } from "./utils";
 
-export const withClusters = (graph: GraphStore<PixiNode, PixiEdge>) => {
+export const withClusters = (
+  graph: GraphStore<PixiNode, PixiEdge>,
+  renderRootId: string
+) => {
   const clusterZoomLevel = writable<number>(1);
   const maxZoomLevel = writable<number>(1);
-  const RENDER_ROOT_ID = "root";
+  const RENDER_ROOT_ID = renderRootId;
 
   const UNCLUSTERED_ID = "unclustered";
 
@@ -103,20 +107,20 @@ export const withClusters = (graph: GraphStore<PixiNode, PixiEdge>) => {
    */
   function insertClusterLevel(clusters: string[][]) {
     // Color and make all cluster nodes
-    const clusterNodes: Array<PixiNode> = [];
+    const clusterLevelNodes: Array<PixiNode> = [];
     clusters.forEach((cluster: string[]) => {
       const color = getRandomColor();
 
       const firstNode = get(graph.nodes)[cluster[0]];
 
       const clusterNode = nodeToPixiNode({
-        id: color,
+        id: uuid.v4(),
         text: get(firstNode.attr.text),
         x: get(firstNode.attr.x),
         y: get(firstNode.attr.y),
       });
       clusterNode.ui.color.set(color);
-      clusterNodes.push(clusterNode);
+      clusterLevelNodes.push(clusterNode);
 
       graph.setNode(clusterNode.id, clusterNode);
 
@@ -135,10 +139,10 @@ export const withClusters = (graph: GraphStore<PixiNode, PixiEdge>) => {
 
     // Make edges to connected cluster nodes
     const djikstra = dijkstraHelper();
-    for (let i = 0; i < clusterNodes.length; i++) {
-      for (let j = i + 1; j < clusterNodes.length; j++) {
-        const id1 = clusterNodes[i].id;
-        const id2 = clusterNodes[j].id;
+    for (let i = 0; i < clusterLevelNodes.length; i++) {
+      for (let j = i + 1; j < clusterLevelNodes.length; j++) {
+        const id1 = clusterLevelNodes[i].id;
+        const id2 = clusterLevelNodes[j].id;
         if (
           djikstra.subgraphsAreConnected(id1, id2) &&
           !nodesAreConnected(id1, id2)
@@ -153,7 +157,10 @@ export const withClusters = (graph: GraphStore<PixiNode, PixiEdge>) => {
       }
     }
 
-    clusterNodes.map((node) => graph.setParent(node.id, RENDER_ROOT_ID));
+    clusterLevelNodes.map((node) => graph.setParent(node.id, RENDER_ROOT_ID));
+
+    unclusteredNodeIds.update(() => getUnclusteredNodes());
+
     maxZoomLevel.update((level) => level + 1);
     // Set value to trigger filterNodes update
     clusterZoomLevel.update((level) => level + 1);

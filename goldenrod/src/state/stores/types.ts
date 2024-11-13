@@ -14,7 +14,7 @@ export enum EdgeLabel {
 }
 
 export interface PixiEdge {
-  readonly id: string; // src+dest, this will break with multiple edge. replace with some other id solution
+  readonly id: string;
   readonly label: EdgeLabel; // Contains
   srcId: string;
   destId: string;
