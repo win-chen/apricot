@@ -2,7 +2,7 @@
   import { Application, Container, Rectangle, type Renderer } from "pixi.js";
   import { backgroundColor } from "src/config/colors";
   import { handleError } from "src/lib/error-handler";
-  import { trackPointer } from "src/state/actions_internal.ts/track-pointer";
+  import { trackPointer } from "src/state/lib/track-pointer";
   import { listener, renderFrame } from "src/state/state";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";

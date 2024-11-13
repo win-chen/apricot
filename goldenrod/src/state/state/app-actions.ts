@@ -1,15 +1,16 @@
 import { showGraphModal } from "src/state/state/index";
 import { get, writable } from "svelte/store";
-import { addEdge } from "../actions_2.ts/add-edge";
-import { addNodeOnClick } from "../actions_2.ts/add-node";
-import { deleteSelectedNodes } from "../actions_2.ts/delete-selection";
-import { dragNode } from "../actions_2.ts/drag-node";
-import { toggleSelect } from "../actions_2.ts/select-node";
+import { addEdge } from "../actions/add-edge";
+import { addNodeOnClick } from "../actions/add-node";
+import { deleteSelectedNodes } from "../actions/delete-selection";
+import { dragNode } from "../actions/drag-node";
+import { toggleSelect } from "../actions/select-node";
 
 import { createAction as _createAction } from "src/user-input-tracker/user-input-tracker";
-import { openEditor } from "../actions_2.ts/open-editor";
-import { panCanvas } from "../actions_2.ts/pan-canvas";
-import { zoomIn, zoomOut } from "../actions_2.ts/zoom";
+import { copyHoveredId } from "../actions/copy_hovered_id";
+import { openEditor } from "../actions/open-editor";
+import { panCanvas } from "../actions/pan-canvas";
+import { zoomIn, zoomOut } from "../actions/zoom";
 import { getNodeXY } from "../utils";
 import { proposedEdgeSrc } from "./add-edge";
 import { hoveredNodeId } from "./ui";
@@ -43,6 +44,10 @@ export const appActions = {
   addEdge_reset: createAppAction({
     input: [["E", "not:node_is_hovered"], "CLICK"],
     onEnter: addEdge.clear,
+  }),
+  copyHoveredId: createAppAction({
+    input: ["node_is_hovered", "C"],
+    onEnter: copyHoveredId,
   }),
   deleteNodes: createAppAction({
     input: ["BACKSPACE"],

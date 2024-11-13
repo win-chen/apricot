@@ -1,8 +1,8 @@
 <script lang="ts">
   import dagre from "@dagrejs/dagre";
   import dot from "graphlib-dot";
-  import { renderNode } from "src/state/actions_2.ts/add-node";
-  import { optimisticAddEdge } from "src/state/actions_internal.ts/optimistic";
+  import { renderNode } from "src/state/actions/add-node";
+  import { optimisticAddEdge } from "src/state/lib/optimistic";
   import { graph, showGraphModal } from "src/state/state/index";
   import Modal from "./Modal.svelte";
 

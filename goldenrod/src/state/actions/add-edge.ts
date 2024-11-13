@@ -1,6 +1,6 @@
 import { createEdge } from "src/graphql/requests";
 import { get } from "svelte/store";
-import { optimisticAddEdge } from "../actions_internal.ts/optimistic";
+import { optimisticAddEdge } from "../lib/optimistic";
 import { proposedEdgeSrc } from "../state/add-edge";
 import { hoveredNodeId } from "../state/ui";
 

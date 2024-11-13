@@ -20,6 +20,6 @@
       "src/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "src/state/fsms"],
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "src/state/fsms", "src/state/lib", "src/state/lib", "src/state/actions", "src/state/actions"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
