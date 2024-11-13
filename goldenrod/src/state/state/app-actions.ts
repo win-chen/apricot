@@ -10,6 +10,7 @@ import { createAction as _createAction } from "src/user-input-tracker/user-input
 import { getNodeXY } from "../utils";
 import { proposedEdgeSrc } from "./add-edge";
 import { hoveredNodeId } from "./ui";
+import { openEditor } from "../actions_2.ts/open-editor";
 
 export const customInput = {
   node_is_hovered: hoveredNodeId,
@@ -69,6 +70,10 @@ export const appActions = {
         isOpen: true,
       });
     },
+  }),
+  openEditor: createAppAction({
+    input: ["node_is_hovered", "W"],
+    onEnter: openEditor
   }),
   selectNode: createAppAction({
     input: ["S", "CLICK"], // TODO: fix, is dummy
