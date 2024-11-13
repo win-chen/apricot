@@ -7,10 +7,11 @@ import { dragNode } from "../actions_2.ts/drag-node";
 import { toggleSelect } from "../actions_2.ts/select-node";
 
 import { createAction as _createAction } from "src/user-input-tracker/user-input-tracker";
+import { openEditor } from "../actions_2.ts/open-editor";
+import { panCanvas } from "../actions_2.ts/pan-canvas";
 import { getNodeXY } from "../utils";
 import { proposedEdgeSrc } from "./add-edge";
 import { hoveredNodeId } from "./ui";
-import { openEditor } from "../actions_2.ts/open-editor";
 
 export const customInput = {
   node_is_hovered: hoveredNodeId,
@@ -73,7 +74,12 @@ export const appActions = {
   }),
   openEditor: createAppAction({
     input: ["node_is_hovered", "W"],
-    onEnter: openEditor
+    onEnter: openEditor,
+  }),
+  panCanvas: createAppAction({
+    input: ["F", "CLICK"],
+    onEnter: panCanvas.start,
+    onLeave: panCanvas.end,
   }),
   selectNode: createAppAction({
     input: ["S", "CLICK"], // TODO: fix, is dummy
