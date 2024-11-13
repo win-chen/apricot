@@ -4,12 +4,10 @@
   import { initClient } from "src/graphql/client";
   import { onMount } from "svelte";
   import GraphModal from "./components/GraphModal.svelte";
-  import KeyboardCtrl from "./components/keyboard-ctrl/KeyboardCtrl.svelte";
   import NodeEditor2 from "./components/NodeEditor2.svelte";
   import InfiniteCanvasGraphContent from "./components/pixi-graph/canvas/InfiniteCanvasGraphContent.svelte";
   import Application from "./components/pixi-svelte/Application.svelte";
   import Syncer from "./components/syncer/Syncer.svelte";
-  import { defaultShortcuts } from "./config/shortcuts";
   import { InitialQueryDocument } from "./graphql/queries";
   import { createResizeStore } from "./lib/resize-store";
   import { interactionTracker } from "./state/interaction-tracker";
@@ -52,7 +50,6 @@
 
 <main>
   <Syncer></Syncer>
-  <KeyboardCtrl shortcuts={defaultShortcuts}></KeyboardCtrl>
   <div bind:this={leftPanel} class="left-panel">
     <Application top={0} left={0} {...$appDimensions}>
       <InfiniteCanvasGraphContent {...$appDimensions}

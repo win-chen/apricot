@@ -7,7 +7,6 @@
     selectedNodeIds,
   } from "src/state/state/index";
   import { get } from "svelte/store";
-  import ShortcutList from "./ShortcutList.svelte";
   import { lastSync, pauseSync } from "./syncer/store";
 
   const { nodes } = graph;
@@ -57,8 +56,6 @@
   <button on:click={handleClick}>cluster</button>
 
   <br />
-
-  <ShortcutList></ShortcutList>
 
   <div>Active leaves: {[...$activeLeaves].join(", ")}</div>
 </div>

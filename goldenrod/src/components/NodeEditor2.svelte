@@ -1,7 +1,8 @@
 <script lang="ts">
   import Modal from "src/components/Modal.svelte";
   import { updateNode } from "src/graphql/requests";
-  import { closeEditor } from "src/state/actions_internal.ts/open-editor";
+
+  import { closeEditor } from "src/state/actions_2.ts/open-editor";
   import { graph } from "src/state/state/index";
   import { getContentContainer } from "./pixi-svelte/context";
 
