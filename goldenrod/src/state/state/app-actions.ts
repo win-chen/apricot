@@ -9,6 +9,7 @@ import { toggleSelect } from "../actions_2.ts/select-node";
 import { createAction as _createAction } from "src/user-input-tracker/user-input-tracker";
 import { openEditor } from "../actions_2.ts/open-editor";
 import { panCanvas } from "../actions_2.ts/pan-canvas";
+import { zoomIn, zoomOut } from "../actions_2.ts/zoom";
 import { getNodeXY } from "../utils";
 import { proposedEdgeSrc } from "./add-edge";
 import { hoveredNodeId } from "./ui";
@@ -84,6 +85,16 @@ export const appActions = {
   selectNode: createAppAction({
     input: ["S", "CLICK"], // TODO: fix, is dummy
     onEnter: toggleSelect,
+  }),
+  zoomIn: createAppAction({
+    input: ["PERIOD"],
+    onEnter: zoomIn.start,
+    onLeave: zoomIn.stop,
+  }),
+  zoomOut: createAppAction({
+    input: ["FORWARD_SLASH"],
+    onEnter: zoomOut.start,
+    onLeave: zoomOut.stop,
   }),
 } as const;
 

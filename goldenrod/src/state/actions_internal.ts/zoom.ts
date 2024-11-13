@@ -1,6 +1,5 @@
 import { type Container } from "pixi.js";
-import { get, writable } from "svelte/store";
-import type Zoom from "../interactions/Zoom.svelte";
+import { writable } from "svelte/store";
 
 type ZoomFn = (scale: number, zoomFactor: number) => number;
 
@@ -67,34 +66,6 @@ const zoomStore = writable<ZoomState | { status: ZoomStatus.UNINITIALIZED }>({
 });
 
 const ZOOM_INTERVAL = 30;
-
-const zoom = {
-  init: (container: Container) => {
-    zoomStore.set({
-      status: ZoomStatus.IDLE,
-      container,
-      zoomFactor: 1.01,
-      zoomDecay: 0.0001,
-    });
-  },
-  zoomIn: () => {
-    if (get(zoomStore).status == ZoomStatus.UNINITIALIZED) {
-      throw new Error("zoom has not been initialized.");
-    } else if (get(zoomStore).status == ZoomStatus.IDLE) {
-      const timeout = setInterval(() => {
-        zoomStore.update((zoomState as ZoomState) => {
-          let scale = container.scale.x;
-          scale = _zoomIn(scale, zoomFactor);
-          zoomFactor += zoomDecay; // Increase the zoom factor over time
-          container.scale.set(scale);
-          container.emit("custom-scale", scale);
-        });
-      }, ZOOM_INTERVAL);
-    } else {
-      // ZoomStatus.ZOOMING - do nothing, interval will handle it
-    }
-  },
-};
 
 export const zoomFunctions2 = (container: Container, zoomFn: ZoomFn) => {
   let timeout: NodeJS.Timeout | undefined = undefined;
