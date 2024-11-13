@@ -64,6 +64,23 @@ export const keys = [
   "Z",
   "BACKSPACE",
 ] as const;
-export type Key = (typeof keys)[number];
+export type Key = (typeof keys)[number] | SpecialCharName;
 
 export type UserInput = Key | Gesture;
+
+export const specialCharNames = {
+  "`": "BACK_TIC",
+  "-": "HYPHEN",
+  "=": "EQUALS",
+  "[": "OPEN_BRACKET",
+  "]": "CLOSED_BRACKET",
+  "\\": "BACK_SLASH",
+  ";": "SEMICOLON",
+  "'": "SINGLE_QUOTE",
+  ",": "COMMA",
+  ".": "PERIOD",
+  "/": "FORWARD_SLASH",
+} as const;
+
+export type SpecialCharKey = keyof typeof specialCharNames;
+export type SpecialCharName = (typeof specialCharNames)[SpecialCharKey];

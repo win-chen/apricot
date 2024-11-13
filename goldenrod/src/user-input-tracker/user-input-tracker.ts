@@ -11,7 +11,7 @@ import {
   writePathTrie,
 } from "./path-trie";
 import { type AvailableInputs, type Config, type ConfigList } from "./types";
-import { getUnshiftedKey, isBooleanWritable } from "./utils";
+import { getNormalizedKey, isBooleanWritable } from "./utils";
 
 export const ROOT = "root";
 
@@ -213,7 +213,7 @@ export const userInteractionTracker = <
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
-    const key = getUnshiftedKey(event.key);
+    const key = getNormalizedKey(event.key);
     const activated = activateInput(key);
 
     // Prevent default of a shortcut has been activated
@@ -222,7 +222,7 @@ export const userInteractionTracker = <
     }
   };
   const onKeyUp = (event: KeyboardEvent) => {
-    const key = getUnshiftedKey(event.key);
+    const key = getNormalizedKey(event.key);
 
     deactivateInput(key);
   };

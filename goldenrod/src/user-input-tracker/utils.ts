@@ -1,4 +1,5 @@
-import { type Writable, get } from "svelte/store";
+import { get, type Writable } from "svelte/store";
+import { specialCharNames, type SpecialCharKey } from "./types";
 
 /**
  * Generates all possible permutations of an array.
@@ -54,13 +55,18 @@ export function isBooleanWritable(value: any): value is Writable<boolean> {
   return containsBoolean;
 }
 
-export function getUnshiftedKey(key: string) {
+function _getUnshiftedKey(key: string) {
   return shiftedToUnshiftedKey.get(key) || key.toUpperCase();
+}
+
+export function getNormalizedKey(key: string) {
+  const normKey = _getUnshiftedKey(key);
+  return specialCharNames[normKey as SpecialCharKey] || normKey;
 }
 
 /**
  * Get unshifted key from shifted.
- * For character keys use toLowerCase()
+ * For character keys use toUpperCase()
  * */
 const shiftedToUnshiftedKey = new Map([
   ["~", "`"],
