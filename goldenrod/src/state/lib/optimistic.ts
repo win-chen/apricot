@@ -1,8 +1,8 @@
 import type { Node } from "src/gql/graphql";
-import { nodeToPixiNode } from "../state/nodes";
-import { graph } from "../state/render-graph";
-import { selectedNodeIds } from "../state/ui";
-import { pixiEdge } from "../utils";
+import { nodeToPixiNode } from "../stores/nodes";
+import { graph } from "../stores/render-graph";
+import { selectedNodeIds } from "../stores/ui";
+import { pixiEdge } from "./utils";
 
 export const optimisticRemoveNode = (id: string) => {
   selectedNodeIds.delete(id);

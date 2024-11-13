@@ -11,8 +11,8 @@
   import { InitialQueryDocument } from "./graphql/queries";
   import { createResizeStore } from "./lib/resize-store";
   import { interactionTracker } from "./state/interaction-tracker";
-  import { editingNodeId } from "./state/state/ui";
-  import { setGraphFromGraphfull } from "./state/utils";
+  import { editingNodeId } from "./state/stores/ui";
+  import { setGraphFromGraphfull } from "./state/lib/utils";
 
   initClient();
   const client = getContextClient();

@@ -1,5 +1,5 @@
 import { createRequest } from "@urql/svelte";
-import { graph } from "src/state/state/index";
+import { graph } from "src/state/stores/index";
 import { get } from "svelte/store";
 import { v4 as uuid } from "uuid";
 import { client } from "./client";

@@ -2,8 +2,8 @@
   import type { Container } from "pixi.js";
   import BasicCard from "src/components/pixi-svelte/BasicCard.svelte";
   import TextDiv from "src/components/pixi-svelte/TextDiv.svelte";
-  import { hoveredNodeId } from "src/state/state/index";
-  import type { PixiNode } from "src/state/types";
+  import { hoveredNodeId } from "src/state/stores/index";
+  import type { PixiNode } from "src/state/stores/types";
   import { onMount } from "svelte";
 
   export let node: PixiNode;

@@ -1,8 +1,8 @@
 import { createEdge } from "src/graphql/requests";
 import { get } from "svelte/store";
 import { optimisticAddEdge } from "../lib/optimistic";
-import { proposedEdgeSrc } from "../state/add-edge";
-import { hoveredNodeId } from "../state/ui";
+import { proposedEdgeSrc } from "../stores/add-edge";
+import { hoveredNodeId } from "../stores/ui";
 
 const setSrc = () => {
   proposedEdgeSrc.set(get(hoveredNodeId));

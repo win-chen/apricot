@@ -1,13 +1,17 @@
-import { nodeToPixiNode } from "src/state/state/index";
-import { EdgeLabel, type PixiEdge, type PixiNode } from "src/state/types";
 import {
   dijkstraHelper,
   edgeToPixiEdge,
   getRandomColor,
   nodesAreConnected,
-} from "src/state/utils";
+} from "src/state/lib/utils";
+import { nodeToPixiNode } from "src/state/stores/index";
+import {
+  EdgeLabel,
+  type PixiEdge,
+  type PixiNode,
+} from "src/state/stores/types";
 import { derived, get, writable } from "svelte/store";
-import type { GraphStore } from "../lib/svelte-utils/graphlib-store/graphlib-store";
+import type { GraphStore } from "../../lib/svelte-utils/graphlib-store/graphlib-store";
 import { getEdgeNodes } from "./utils";
 
 export const withClusters = (graph: GraphStore<PixiNode, PixiEdge>) => {

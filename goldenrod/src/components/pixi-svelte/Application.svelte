@@ -3,7 +3,7 @@
   import { backgroundColor } from "src/config/colors";
   import { handleError } from "src/lib/error-handler";
   import { trackPointer } from "src/state/lib/track-pointer";
-  import { listener, renderFrame } from "src/state/state";
+  import { listener, renderFrame } from "src/state/stores";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
   import {

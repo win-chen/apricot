@@ -1,6 +1,6 @@
-import { type AppActions, type CustomInput } from "src/state/state/index";
+import { type AppActions, type CustomInput } from "src/state/stores/index";
 import { userInteractionTracker } from "src/user-input-tracker/user-input-tracker";
-import { appActions, customInput } from "./state/index";
+import { appActions, customInput } from "./stores/index";
 
 export const interactionTracker = userInteractionTracker<
   AppActions,

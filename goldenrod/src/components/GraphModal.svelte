@@ -3,7 +3,7 @@
   import dot from "graphlib-dot";
   import { renderNode } from "src/state/actions/add-node";
   import { optimisticAddEdge } from "src/state/lib/optimistic";
-  import { graph, showGraphModal } from "src/state/state/index";
+  import { graph, showGraphModal } from "src/state/stores/index";
   import Modal from "./Modal.svelte";
 
   let inputText = "";

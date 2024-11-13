@@ -1,5 +1,5 @@
 import type { FederatedPointerEvent } from "pixi.js";
-import { pointerPos } from "../state/ui";
+import { pointerPos } from "../stores/ui";
 
 export const trackPointer = (event: FederatedPointerEvent) => {
   pointerPos.set({

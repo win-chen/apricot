@@ -9,7 +9,7 @@
 
 <script lang="ts">
   import { Container, Graphics } from "pixi.js";
-  import { type PixiEdge } from "src/state/types";
+  import { type PixiEdge } from "src/state/stores/types";
   import { getContainer } from "src/components/pixi-svelte/context";
   import { onDestroy } from "svelte";
 

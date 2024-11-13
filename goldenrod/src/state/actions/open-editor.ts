@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { editingNodeId, hoveredNodeId } from "../state/ui";
+import { editingNodeId, hoveredNodeId } from "../stores/ui";
 
 export const openEditor = () => {
   editingNodeId.set(get(hoveredNodeId));

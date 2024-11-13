@@ -2,10 +2,10 @@ import { cardColor, hoverForEdgeCreate } from "src/config/colors";
 import { type Node } from "src/gql/graphql";
 import { deepWritable } from "src/lib/svelte-utils/deep-writable";
 import { derived, get, writable } from "svelte/store";
-import { type Attrs, type PixiNode, type UI } from "../types";
 import { proposedEdgeSrc } from "./add-edge";
 import { appActions } from "./app-actions";
 import { renderFrame } from "./render-graph";
+import { type Attrs, type PixiNode, type UI } from "./types";
 import { hoveredNodeId, selectedNodeIds } from "./ui";
 
 export type DerivedNodeData = ReturnType<typeof deriveNodeData>;

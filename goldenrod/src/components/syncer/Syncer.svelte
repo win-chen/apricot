@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createRequest, getContextClient } from "@urql/svelte";
   import { UpdateNodeDocument } from "src/gql/graphql";
-  import { graph } from "src/state/state/index";
+  import { graph } from "src/state/stores/index";
   import { onMount } from "svelte";
   import { get } from "svelte/store";
   import { lastSync, pauseSync } from "./store";

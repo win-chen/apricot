@@ -3,7 +3,7 @@
     renderedEdges,
     renderedNodes,
     renderFrame,
-  } from "src/state/state/index";
+  } from "src/state/stores/index";
   import PContainer from "../../pixi-svelte/PContainer.svelte";
   import Edge from "../edge/Edge.svelte";
   import Node from "../node/Node.svelte";

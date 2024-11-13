@@ -1,8 +1,8 @@
 import { dragHelpers, type DragHelper } from "src/lib/svelte-utils/drag-helper";
 import { get, writable } from "svelte/store";
-import { renderFrame } from "../state";
-import { hoveredNodeId, listener, pointerPos } from "../state/ui";
-import { getNodeWritableXY } from "../utils";
+import { getNodeWritableXY } from "../lib/utils";
+import { renderFrame } from "../stores";
+import { hoveredNodeId, listener, pointerPos } from "../stores/ui";
 
 interface DragInstance {
   draggingId: string;

@@ -5,7 +5,7 @@
     graph,
     pointerPos,
     selectedNodeIds,
-  } from "src/state/state/index";
+  } from "src/state/stores/index";
   import { get } from "svelte/store";
   import { lastSync, pauseSync } from "./syncer/store";
 

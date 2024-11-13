@@ -1,4 +1,4 @@
-import { showGraphModal } from "src/state/state/index";
+import { showGraphModal } from "src/state/stores/index";
 import { get, writable } from "svelte/store";
 import { addEdge } from "../actions/add-edge";
 import { addNodeOnClick } from "../actions/add-node";
@@ -11,7 +11,7 @@ import { copyHoveredId } from "../actions/copy_hovered_id";
 import { openEditor } from "../actions/open-editor";
 import { panCanvas } from "../actions/pan-canvas";
 import { zoomIn, zoomOut } from "../actions/zoom";
-import { getNodeXY } from "../utils";
+import { getNodeXY } from "../lib/utils";
 import { proposedEdgeSrc } from "./add-edge";
 import { hoveredNodeId } from "./ui";
 

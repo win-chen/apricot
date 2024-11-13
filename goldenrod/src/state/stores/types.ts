@@ -1,7 +1,7 @@
 import type { Node } from "src/gql/graphql";
 import type { DeepWritable } from "src/lib/svelte-utils/deep-writable";
 import type { Readable, Writable } from "svelte/store";
-import type { DerivedNodeData } from "./state/nodes";
+import type { DerivedNodeData } from "./nodes";
 
 export type RelativePositon = { x: number; y: number };
 

@@ -3,7 +3,7 @@
   import { updateNode } from "src/graphql/requests";
 
   import { closeEditor } from "src/state/actions/open-editor";
-  import { graph } from "src/state/state/index";
+  import { graph } from "src/state/stores/index";
   import { getContentContainer } from "./pixi-svelte/context";
 
   export let id: string;

@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { hoveredNodeId } from "../state/ui";
+import { hoveredNodeId } from "../stores/ui";
 
 export const copyHoveredId = async () => {
   const id = get(hoveredNodeId) || "";

@@ -4,9 +4,9 @@ import { createGraph } from "src/lib/svelte-utils/graphlib-store/graphlib-store"
 import { writableSet } from "src/lib/svelte-utils/set";
 import { RelativeRenderFrame } from "src/lib/svelte-utils/svelte-infinite-canvas/relative-render";
 import { derived, get, writable } from "svelte/store";
-import { type PixiEdge, type PixiNode } from "../types";
-import { getEdgeNodes } from "../utils";
-import { withClusters } from "../with-clusters";
+import { getEdgeNodes } from "../lib/utils";
+import { withClusters } from "../lib/with-clusters";
+import { type PixiEdge, type PixiNode } from "./types";
 
 export const graph = withClusters(createGraph<PixiNode, PixiEdge>());
 

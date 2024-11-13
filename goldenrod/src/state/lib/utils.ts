@@ -3,9 +3,9 @@ import { edgeColor } from "src/config/colors";
 import { type Edge, type GraphFull } from "src/gql/graphql";
 import type { GraphStore } from "src/lib/svelte-utils/graphlib-store/graphlib-store";
 import { derived, get, writable } from "svelte/store";
-import { nodeToPixiNode } from "./state/nodes";
-import { graph, renderFrame } from "./state/render-graph";
-import { EdgeLabel, type PixiEdge, type PixiNode } from "./types";
+import { nodeToPixiNode } from "../stores/nodes";
+import { graph, renderFrame } from "../stores/render-graph";
+import { EdgeLabel, type PixiEdge, type PixiNode } from "../stores/types";
 
 export const setGraphFromGraphfull = (assets: GraphFull) => {
   // Make render root node

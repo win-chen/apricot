@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { renderFrame } from "../state";
+import { renderFrame } from "../stores";
 
 type ZoomFn = (scale: number, zoomFactor: number) => number;
 

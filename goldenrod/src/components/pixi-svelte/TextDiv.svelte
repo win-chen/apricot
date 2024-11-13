@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { renderFrame } from "src/state/state";
+  import { renderFrame } from "src/state/stores";
   import { getContainer } from "./context";
   export let text: string;
   let top: string;

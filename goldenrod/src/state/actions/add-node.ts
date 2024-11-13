@@ -1,8 +1,8 @@
 import type { FederatedPointerEvent } from "pixi.js";
 import { addNodeRequest } from "src/graphql/requests";
 import { optimisticAddNode } from "../lib/optimistic";
-import { renderFrame } from "../state/render-graph";
-import { hoveredNodeId } from "../state/ui";
+import { renderFrame } from "../stores/render-graph";
+import { hoveredNodeId } from "../stores/ui";
 
 export const renderNode = (id: string, x: number, y: number) => {
   optimisticAddNode({ id, text: id, x, y });

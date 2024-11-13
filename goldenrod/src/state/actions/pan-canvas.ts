@@ -1,6 +1,6 @@
 import { dragHelpers, type DragHelper } from "src/lib/svelte-utils/drag-helper";
 import { get, writable } from "svelte/store";
-import { listener, pointerPos, renderFrame } from "../state";
+import { listener, pointerPos, renderFrame } from "../stores";
 
 let panInstance: DragHelper | null = null;
 
