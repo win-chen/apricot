@@ -4,8 +4,8 @@
   import { initClient } from "src/graphql/client";
   import { onMount } from "svelte";
   import GraphModal from "./components/GraphModal.svelte";
-  import NodeEditor2 from "./components/NodeEditor2.svelte";
-  import InfiniteCanvasGraphContent from "./components/pixi-graph/canvas/InfiniteCanvasGraphContent.svelte";
+  import NodeEditor2 from "./components/NodeEditor.svelte";
+  import InfiniteCanvasGraphContent from "./components/pixi-graph/InfiniteCanvasGraphContent.svelte";
   import Application from "./components/pixi-svelte/Application.svelte";
   import Syncer from "./components/syncer/Syncer.svelte";
   import { InitialQueryDocument } from "./graphql/queries";

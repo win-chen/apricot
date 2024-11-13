@@ -4,9 +4,9 @@
     renderedNodes,
     renderFrame,
   } from "src/state/stores/index";
-  import PContainer from "../../pixi-svelte/PContainer.svelte";
-  import Edge from "../edge/Edge.svelte";
-  import Node from "../node/Node.svelte";
+  import PContainer from "../pixi-svelte/PContainer.svelte";
+  import Edge from "./Edge.svelte";
+  import Node from "./Node.svelte";
 
   export let width: number;
   export let height: number;
