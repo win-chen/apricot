@@ -6,7 +6,7 @@ import { deleteSelectedNodes } from "../actions/delete-selection";
 import { dragNode } from "../actions/drag-node";
 import { toggleSelect } from "../actions/select-node";
 
-import { createAction as _createAction } from "src/user-input-tracker/user-input-tracker";
+import { createAction as _createAction } from "src/lib/user-input-tracker/user-input-tracker";
 import { copyHoveredId } from "../actions/copy_hovered_id";
 import { openEditor } from "../actions/open-editor";
 import { panCanvas } from "../actions/pan-canvas";
