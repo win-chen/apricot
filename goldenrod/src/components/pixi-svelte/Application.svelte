@@ -3,11 +3,10 @@
   import { backgroundColor } from "src/config/colors";
   import { handleError } from "src/lib/error-handler";
   import { trackPointer } from "src/state/actions_internal.ts/track-pointer";
-  import { listener } from "src/state/state";
+  import { listener, renderFrame } from "src/state/state";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
   import {
-    setCanvasScale,
     setContainer,
     setContentContainer,
     setInteractionCanvas,
@@ -36,12 +35,7 @@
   contentContainer.eventMode = "static";
   setContainer(contentContainer);
   setContentContainer(contentContainer);
-  // init canvas scale
-  canvasScale.set(contentContainer.scale.x);
-  contentContainer.on("custom-scale", () =>
-    canvasScale.set(contentContainer.scale.x),
-  );
-  setCanvasScale(canvasScale);
+  renderFrame.scale.subscribe((scale) => contentContainer.scale.set(scale));
 
   // Listens to events from both containers
   const listenerContainer = new Container();

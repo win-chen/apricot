@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { getContentContainer } from "src/components/pixi-svelte/context";
   import {
     renderedEdges,
     renderedNodes,
@@ -13,10 +12,6 @@
   export let height: number;
 
   $: renderFrame.dimensions.set({ width, height });
-  const contentContainer = getContentContainer();
-  contentContainer.on("custom-scale", (scale) => {
-    renderFrame.scale.set(scale);
-  });
 </script>
 
 <div class="container" style:width={`${width}px`} style:height={`${height}px`}>

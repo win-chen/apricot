@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Container } from "pixi.js";
-  import { getCanvasScale, getContainer } from "./context";
+  import { renderFrame } from "src/state/state";
+  import { getContainer } from "./context";
   export let text: string;
   let top: string;
   let left: string;
@@ -8,7 +8,6 @@
   let height: string;
   let transform: string;
 
-  const canvasScale = getCanvasScale();
   const container = getContainer();
 
   // TODO: Currently "custom-transform" is only emitted in BasicCard
@@ -30,11 +29,10 @@
   const updateScale = (scale: number) => {
     transform = `scale(${scale}`;
     updatePosition();
-  }
-  canvasScale.subscribe(updateScale);
+  };
+  renderFrame.scale.subscribe(updateScale);
   updatePosition();
   container.on("custom-transform", updatePosition);
-
 </script>
 
 <div style:left style:top style:width style:height style:transform>

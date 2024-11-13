@@ -1,5 +1,11 @@
 import { EventEmitter } from "pixi.js";
-import { derived, get, writable, type Writable, type Readable } from "svelte/store";
+import {
+  derived,
+  get,
+  writable,
+  type Readable,
+  type Writable,
+} from "svelte/store";
 
 /**
  * Summary:
@@ -34,7 +40,7 @@ interface PositionRect extends Position {
 }
 
 /**
- * Holds the state of the render frame to use to calculate 
+ * Holds the state of the render frame to use to calculate
  * Implicitly updates position for each item in the canvas
  */
 export class RelativeRenderFrame extends EventEmitter {
@@ -51,10 +57,10 @@ export class RelativeRenderFrame extends EventEmitter {
   public originPoint: Writable<Position>;
 
   constructor(opts?: {
-    dimensions?: TwoDims,
-    origin?: Position,
-    scale?: number,
-    buffer?: number,
+    dimensions?: TwoDims;
+    origin?: Position;
+    scale?: number;
+    buffer?: number;
   }) {
     super();
 
@@ -62,26 +68,23 @@ export class RelativeRenderFrame extends EventEmitter {
       dimensions = { width: 0, height: 0 },
       origin = { top: 0, left: 0 },
       scale = 1,
-      buffer = 50
-    } = (opts || {});
+      buffer = 50,
+    } = opts || {};
 
     this.scale = writable(scale);
     this.dimensions = writable(dimensions);
     this.buffer = buffer;
 
-    this.renderRect = derived(
-      this.dimensions,
-      (dims) => ({
-        top: -this.buffer,
-        left: -this.buffer,
-        bot: dims.height + this.buffer,
-        right: dims.width +this.buffer,        
-      })
-    );
+    this.renderRect = derived(this.dimensions, (dims) => ({
+      top: -this.buffer,
+      left: -this.buffer,
+      bot: dims.height + this.buffer,
+      right: dims.width + this.buffer,
+    }));
 
     this.originPoint = writable(origin);
 
-    // TODO: Refactore out events. We can just make derived stores 
+    // TODO: Refactore out events. We can just make derived stores
     this.originPoint.subscribe(() => this.emit("frame-change"));
     this.dimensions.subscribe(() => this.emit("frame-change"));
     this.scale.subscribe(() => this.emit("frame-change"));
@@ -90,48 +93,49 @@ export class RelativeRenderFrame extends EventEmitter {
   public shouldRender(rect: CoordRect): boolean {
     const { x, y, width, height } = rect;
     const posTopLeft = this.coordToFramePosition({ x, y });
-    const posBottomRight = this.coordToFramePosition({ 
+    const posBottomRight = this.coordToFramePosition({
       // TODO: This is actually inaccurate since nodes are currently circles
       // They are anchored in the middle
-      x: x + width, 
-      y: y + height 
+      x: x + width,
+      y: y + height,
     });
 
     return this.isInFrame(posTopLeft, posBottomRight);
-  } 
+  }
 
   /**
-   * 
+   *
    * @param pos1 one of two points defining a rectangle
    * @param pos2 one of two points defining a rectangle
-   * @returns 
+   * @returns
    */
   private static getCorners(pos1: Position, pos2: Position): PositionRect {
     return {
       top: Math.min(pos1.top, pos2.top),
       left: Math.min(pos1.left, pos2.left),
       bot: Math.max(pos1.top, pos2.top),
-      right: Math.max(pos1.left, pos2.left)
-    }
+      right: Math.max(pos1.left, pos2.left),
+    };
   }
-  
 
   /**
-   * 
-   * @param pos1 one of two points defining a rectangle 
+   *
+   * @param pos1 one of two points defining a rectangle
    * @param pos2 one of two points defining a rectangle
    * @returns Whether any part of the rectangle is in frame
    */
-  public isInFrame(pos1: Position, pos2: Position): boolean {      
+  public isInFrame(pos1: Position, pos2: Position): boolean {
     const pos = RelativeRenderFrame.getCorners(pos1, pos2);
-    
+
     const { top, left, bot, right } = get(this.renderRect);
-  
-    const render = !(pos.bot < top || 
-      pos.top > bot || 
-      pos.right < left || 
-      pos.left > right);
-    
+
+    const render = !(
+      pos.bot < top ||
+      pos.top > bot ||
+      pos.right < left ||
+      pos.left > right
+    );
+
     return render;
   }
 
@@ -141,7 +145,7 @@ export class RelativeRenderFrame extends EventEmitter {
     const { top, left } = get(this.originPoint);
     return {
       top: coord.y + top,
-      left: coord.x + left
+      left: coord.x + left,
     };
   }
 
@@ -150,17 +154,17 @@ export class RelativeRenderFrame extends EventEmitter {
     const pos = this.coordToContainerPosition(coord);
     return {
       top: pos.top * get(this.scale),
-      left: pos.left * get(this.scale)
-    }
+      left: pos.left * get(this.scale),
+    };
   }
 
   // Returns coordinate relative to origin given position relative to frame
   // Use to translate mouse positions to x, y
   public framePositionToCoord(pos: Position) {
     const { top, left } = get(this.originPoint);
-    return { 
-      x: pos.left / get(this.scale) - left, 
-      y: pos.top / get(this.scale)  - top 
+    return {
+      x: pos.left / get(this.scale) - left,
+      y: pos.top / get(this.scale) - top,
     };
   }
 
