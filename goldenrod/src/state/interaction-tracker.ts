@@ -1,3 +1,4 @@
+import * as dot from "graphlib-dot";
 import { userInteractionTracker } from "src/lib/user-input-tracker/user-input-tracker";
 import { type AppActions, type CustomInput } from "src/state/stores/index";
 import { appActions, customInput } from "./stores/index";
@@ -8,3 +9,5 @@ export const interactionTracker = userInteractionTracker<
 >(customInput);
 
 interactionTracker.register(appActions);
+
+console.log(dot.write(interactionTracker.inputTrie));

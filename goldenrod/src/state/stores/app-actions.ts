@@ -1,4 +1,4 @@
-import { showGraphModal } from "src/state/stores/index";
+import { graphModalState } from "src/state/stores/index";
 import { get, writable } from "svelte/store";
 import { addEdge } from "../actions/add-edge";
 import { addNodeOnClick } from "../actions/add-node";
@@ -70,7 +70,7 @@ export const appActions = {
     onEnter: () => {
       const { x, y } = getNodeXY(get(hoveredNodeId)!);
 
-      showGraphModal.set({
+      graphModalState.set({
         id: get(hoveredNodeId) || "",
         x,
         y,

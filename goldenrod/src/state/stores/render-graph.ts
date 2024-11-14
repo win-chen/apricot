@@ -41,4 +41,4 @@ export const nodeIdsInFrame = writableSet<string>([]);
 export const renderedNodes = derived([graph.nodesInView], ([nodes]) => nodes);
 export const renderedEdges = derived([graph.edgesInView], ([edges]) => edges);
 
-export const showGraphModal = writable({ id: "", x: 0, y: 0, isOpen: false });
+export const graphModalState = writable({ id: "", x: 0, y: 0, isOpen: false });

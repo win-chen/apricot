@@ -87,6 +87,7 @@ export const userInteractionTracker = <
   const activeLeaves = writableSet([ROOT]);
   // Currently registered configs
   let actionConfigs: Partial<ConfigList<T>> = {};
+  let disabled = false;
 
   const registerAction = <T extends Record<string, any>>(
     name: string,
@@ -161,6 +162,10 @@ export const userInteractionTracker = <
     active: boolean,
     event?: MouseEvent
   ) => {
+    if (disabled) {
+      return false;
+    }
+
     let triggeredAnAction = false;
 
     const actions = getNonPathPredecessors(inputTrie, pathNode);
@@ -294,6 +299,12 @@ export const userInteractionTracker = <
       });
 
       actionConfigs = config;
+    },
+    enable: () => {
+      disabled = false;
+    },
+    disable: () => {
+      disabled = true;
     },
     actionsConfig: actionConfigs,
   };

@@ -3,7 +3,9 @@
   import { updateNode } from "src/graphql/requests";
 
   import { closeEditor } from "src/state/actions/open-editor";
+  import { interactionTracker } from "src/state/interaction-tracker";
   import { graph } from "src/state/stores/index";
+  import { onMount } from "svelte";
   import { getContentContainer } from "./pixi-svelte/context";
 
   export let id: string;
@@ -26,7 +28,12 @@
     text.set(output);
     updateNode(id);
     closeEditor();
+    interactionTracker.enable();
   };
+
+  onMount(() => {
+    interactionTracker.disable();
+  });
 </script>
 
 <Modal

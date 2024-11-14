@@ -11,8 +11,9 @@
   import { InitialQueryDocument } from "./graphql/queries";
   import { createResizeStore } from "./lib/resize-store";
   import { interactionTracker } from "./state/interaction-tracker";
-  import { editingNodeId } from "./state/stores/ui";
   import { setGraphFromGraphfull } from "./state/lib/utils";
+  import { graphModalState } from "./state/stores";
+  import { editingNodeId } from "./state/stores/ui";
 
   initClient();
   const client = getContextClient();
@@ -57,7 +58,9 @@
       {#if $editingNodeId}
         <NodeEditor2 id={$editingNodeId}></NodeEditor2>
       {/if}
-      <GraphModal></GraphModal>
+      {#if $graphModalState.isOpen}
+        <GraphModal></GraphModal>
+      {/if}
     </Application>
   </div>
   <div class="right-panel">
