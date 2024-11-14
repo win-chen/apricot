@@ -1,6 +1,11 @@
 <script lang="ts">
   import { Circle, Container, Graphics } from "pixi.js";
-  import { cardColor, hoverColor, selectColor } from "src/config/colors";
+  import {
+    cardColor,
+    hoverColor,
+    hoveredAndSelected,
+    selectColor,
+  } from "src/config/colors";
   import { forwardEvents } from "src/lib/svelte-utils/forward-event";
   import { onDestroy } from "svelte";
   import { getContainer, setContainer } from "./context";
@@ -44,9 +49,13 @@
 
     surface.circle(0, 0, 40).fill({ color: opts.baseColor, alpha: opacity });
 
+    // TODO: possibly move this to the store
     if (!opts.hovered && !opts.selected) {
       // clear any borders
       surface.stroke({ width, alpha: 0 });
+    } else if (opts.hovered && opts.selected) {
+      surface.circle(0, 0, 40);
+      surface.stroke({ width, alpha: 1, color: hoveredAndSelected });
     } else if (opts.hovered) {
       surface.circle(0, 0, 40);
       surface.stroke({ width, alpha: 1, color: hoverColor });
