@@ -4,7 +4,11 @@
   import { renderNode } from "src/state/actions/add-node";
   import { interactionTracker } from "src/state/interaction-tracker";
   import { optimisticAddEdge } from "src/state/lib/optimistic";
-  import { graph, graphModalState } from "src/state/stores/index";
+  import {
+    graph,
+    GRAPH_MODAL_STATE_DEFAULT,
+    graphModalState,
+  } from "src/state/stores/index";
   import { onMount } from "svelte";
   import Modal from "./Modal.svelte";
 
@@ -61,6 +65,9 @@
     });
 
     optimisticAddEdge($graphModalState.id, topMostNode);
+
+    // Clear state
+    graphModalState.set(GRAPH_MODAL_STATE_DEFAULT);
   };
 
   onMount(() => {

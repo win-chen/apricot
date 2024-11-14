@@ -13,7 +13,7 @@ import { panCanvas } from "../actions/pan-canvas";
 import { zoomIn, zoomOut } from "../actions/zoom";
 import { getNodeXY } from "../lib/utils";
 import { proposedEdgeSrc } from "./add-edge";
-import { hoveredNodeId } from "./ui";
+import { editorIsOpen, hoveredNodeId } from "./ui";
 
 export const customInput = {
   node_is_hovered: hoveredNodeId,
@@ -65,7 +65,7 @@ export const appActions = {
     input: ["is_dragging_node", "CLICK"],
     onLeave: dragNode.finish,
   }),
-  graph_modal: createAppAction({
+  graphModal: createAppAction({
     input: ["node_is_hovered", "B"],
     onEnter: () => {
       const { x, y } = getNodeXY(get(hoveredNodeId)!);
@@ -81,6 +81,7 @@ export const appActions = {
   openEditor: createAppAction({
     input: ["node_is_hovered", "W"],
     onEnter: openEditor,
+    store: editorIsOpen,
   }),
   panCanvas: createAppAction({
     input: ["F", "CLICK"],
