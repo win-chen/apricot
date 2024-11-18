@@ -9,14 +9,14 @@
 
 <script lang="ts">
   import { Container, Graphics } from "pixi.js";
-  import { type PixiEdge } from "src/state/stores/types";
   import { getContainer } from "src/components/pixi-svelte/context";
+  import { type PixiEdge } from "src/state/stores/types";
   import { onDestroy } from "svelte";
 
   export let edge: PixiEdge;
   const container = getContainer();
 
-  $: ({ src, dest, opacity } = edge);
+  $: ({ start: src, end: dest, opacity } = edge);
 
   const pixiEdge = initPixiEdge(container);
   const graphic = new Graphics();

@@ -25,17 +25,6 @@ export const withClusters = (
 
   const UNCLUSTERED_ID = "unclustered";
 
-  const opacityFilter = 0.3;
-
-  /** Possibly used to rerender nodesInView when inserting new cluster layer */
-  const opacityRerenderBit = writable(false);
-
-  const lightenOpacityByLayer = (level: number, node: PixiNode) => {
-    node.ui.opacity.update((opacity) =>
-      Math.min(0, opacity - opacityFilter * level)
-    );
-  };
-
   /**
    * Nodes in the cluster level
    */

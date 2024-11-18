@@ -25,8 +25,6 @@ const initUi = (attr: Attrs) => {
     dimensions: writable({ width: 0, height: 0 }),
     position: writable({ top: 0, left: 0 }),
     opacity: writable(1),
-    inFrame: writable(false),
-    shouldRender: writable(false),
     color: writable(null),
   };
 

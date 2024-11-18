@@ -18,8 +18,8 @@ export interface PixiEdge {
   readonly label: EdgeLabel; // Contains
   srcId: string;
   destId: string;
-  src: Readable<Position>;
-  dest: Readable<Position>;
+  start: Readable<Position>;
+  end: Readable<Position>;
   color: string;
   // Float 0 to 1. Opacity 0 is not rendered
   opacity: Writable<number>;
@@ -46,7 +46,5 @@ export interface UI {
   position: Writable<{ top: number; left: number }>;
   // Float 0 to 1. Opacity 0 is not rendered
   opacity: Writable<number>;
-  inFrame: Writable<boolean>;
-  shouldRender: Writable<boolean>;
   color: Writable<string | null>;
 }

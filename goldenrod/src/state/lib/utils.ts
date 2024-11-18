@@ -72,8 +72,8 @@ export const pixiEdge = (src: string, dest: string) => {
     label: EdgeLabel.LINKED,
     srcId: src,
     destId: dest,
-    src: readableNodePosition(src),
-    dest: readableNodePosition(dest),
+    start: readableNodePosition(src),
+    end: readableNodePosition(dest),
     color: edgeColor,
     opacity: writable(1),
   };
