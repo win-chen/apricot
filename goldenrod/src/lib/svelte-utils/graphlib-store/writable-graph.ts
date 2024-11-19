@@ -40,6 +40,14 @@ export const writableGraph = (
       });
       return result;
     },
+    setParent: (child: string | string[], parent?: string) => {
+      if (Array.isArray(child)) {
+        child.forEach((node) => graph.setParent(node, parent));
+      } else {
+        graph.setParent(child, parent);
+      }
+      return result;
+    },
     removeNode: (id: string) => {
       graph.removeNode(id);
       return result;

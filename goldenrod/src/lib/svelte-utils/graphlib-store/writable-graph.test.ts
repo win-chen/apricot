@@ -15,7 +15,7 @@ describe("writableGraph", () => {
     expect(graphStore.get().nodeCount()).toBe(2);
   });
 
-  it("should add and remove edges - regular graph", () => {
+  it("should add and remove edges - monograph", () => {
     const graphStore = writableGraph();
 
     graphStore.setNode("A").setNode("B").setEdge("A", "B", "e-id").update();
