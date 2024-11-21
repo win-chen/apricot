@@ -9,10 +9,28 @@ interface LevelNode {
 }
 
 /**
- * Maybe include node data adapter? to add/delete nodes for cluster nodes?
+ * Clusterer provides methods for a "cluster zoom".
+ * A cluster is an unordered group of items, represented by ids.
+ * A cluster can contain other clusters.
+ * This creates a tree of clusters with items as leaves.
+ * The number of "levels" on the tree is determined by the longest
+ * path from a leaf to its root ancestor.
+ * Each "level" contains the siblings on that level of the tree as well
+ * as any decendant nodes that don't have an ancestor at that level.
+ * Example:
+ *          e
+ *         /\
+ *        d  \
+ *       / \  \
+ *     a   b   c
+ *
+ * Level 1 contains "a", "b", "c"
+ * Level 2 contains "d", "c"
+ * Level 3 contains "e"
  */
 export const clusterer = () => {
-  const clusterGraph = writableGraph({ directed: true, compound: true });
+  // Using graphlib as tree out of convenience.
+  const clusterGraph = writableGraph({ compound: true });
 
   const orderedLevels = new DoublyLinkedList<LevelNode>();
   orderedLevels.insertFirst({
