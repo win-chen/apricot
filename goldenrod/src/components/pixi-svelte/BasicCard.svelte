@@ -61,7 +61,7 @@
       surface.stroke({ width, alpha: 1, color: hoverColor });
     } else if (opts.selected) {
       surface.circle(0, 0, 40);
-      surface.stroke({ width, alpha: 1, color: selectColor });
+      surface.stroke({ width: width / 2, alpha: 1, color: selectColor });
     }
   };
 

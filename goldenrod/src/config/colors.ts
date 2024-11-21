@@ -16,12 +16,14 @@ export const auburn = "#A22C29";
 export const timberwolf = "#D6D5C9"; // gray
 export const darkYellow = "goldenrod";
 export const darkGray = "#363636";
+export const black = "#000";
+
 /** Parts */
 export const backgroundColor = lightGray;
 export const cardColor = cream;
 export const textColor = blue;
 export const hoverColor = blue;
-export const selectColor = darkGray;
+export const selectColor = black;
 export const hoveredAndSelected = darkBlue;
 export const edgeColor = timberwolf;
 export const hoverForEdgeCreate = green;
