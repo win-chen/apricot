@@ -7,6 +7,7 @@ import { dragNode } from "../actions/drag-node";
 import { toggleSelect } from "../actions/select-node";
 
 import { createAction as _createAction } from "src/lib/user-input-tracker/user-input-tracker";
+import { copySelectionToDot } from "../actions/copy-selection-to-dot";
 import { copyHoveredId } from "../actions/copy_hovered_id";
 import { openEditor } from "../actions/open-editor";
 import { panCanvas } from "../actions/pan-canvas";
@@ -48,6 +49,10 @@ export const appActions = {
   copyHoveredId: createAppAction({
     input: ["node_is_hovered", "C"],
     onEnter: copyHoveredId,
+  }),
+  copySelectionToDot: createAppAction({
+    input: ["P"],
+    onEnter: copySelectionToDot,
   }),
   deleteNodes: createAppAction({
     input: ["BACKSPACE"],
