@@ -4,8 +4,8 @@ import { optimisticAddNode } from "../lib/optimistic";
 import { renderFrame } from "../stores/render-graph";
 import { hoveredNodeId } from "../stores/ui";
 
-export const renderNode = (id: string, x: number, y: number) => {
-  optimisticAddNode({ id, text: id, x, y });
+export const renderNode = (id: string, text: string, x: number, y: number) => {
+  optimisticAddNode({ id, text, x, y });
 };
 
 const addNode = (x: number, y: number) => {

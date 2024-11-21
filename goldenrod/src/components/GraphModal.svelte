@@ -27,40 +27,43 @@
     const node = $nodes[$graphModalState.id];
     node.attr.text.set(graphName);
 
-    const dGraph = new dagre.graphlib.Graph();
+    const layoutGraph = new dagre.graphlib.Graph();
 
     // Set an object for the graph label
-    dGraph.setGraph({});
+    layoutGraph.setGraph({});
 
     // Default to assigning a new object as a label for each new edge.
-    dGraph.setDefaultEdgeLabel(function () {
+    layoutGraph.setDefaultEdgeLabel(function () {
       return {};
     });
 
-    input
-      .nodes()
-      .forEach((node) =>
-        dGraph.setNode(node, { id: node, width: 100, height: 100 }),
-      );
-    input.edges().forEach((edge) => dGraph.setEdge(edge.v, edge.w));
+    input.nodes().forEach((id) =>
+      layoutGraph.setNode(id, {
+        id,
+        width: 100,
+        height: 100,
+      }),
+    );
+    input.edges().forEach((edge) => layoutGraph.setEdge(edge.v, edge.w));
 
-    dagre.layout(dGraph);
+    dagre.layout(layoutGraph);
 
-    const offsetX = $graphModalState.x - dGraph.graph().width! / 2;
+    const offsetX = $graphModalState.x - layoutGraph.graph().width! / 2;
     const offsetY = $graphModalState.y + 100;
 
-    let topMostNode = dGraph.nodes()[0];
-    const dGraphNode = (name: string) => dGraph.node(name);
+    let topMostNode = layoutGraph.nodes()[0];
+    const dGraphNode = (name: string) => layoutGraph.node(name);
 
-    dGraph.nodes().forEach((name) => {
-      const node = dGraph.node(name);
-      const { x, y } = node;
-      renderNode(name, x + offsetX, y + offsetY);
+    layoutGraph.nodes().forEach((id) => {
+      const { x, y } = layoutGraph.node(id);
+      const { label } = input.node(id);
+      const text = label || id;
+      renderNode(id, text, x + offsetX, y + offsetY);
       if (dGraphNode(topMostNode).y > y) {
-        topMostNode = name;
+        topMostNode = text;
       }
     });
-    dGraph.edges().forEach((edge) => {
+    layoutGraph.edges().forEach((edge) => {
       optimisticAddEdge(edge.v, edge.w);
     });
 
