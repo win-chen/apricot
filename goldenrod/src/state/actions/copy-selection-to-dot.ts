@@ -1,5 +1,6 @@
 import { Graph } from "@dagrejs/graphlib";
 import dot from "graphlib-dot";
+import { deepUnwrap } from "src/lib/svelte-utils/deep-unwrap";
 import type { GraphStore } from "src/lib/svelte-utils/graphlib-store/graphlib-store";
 import { get } from "svelte/store";
 import {
@@ -60,7 +61,12 @@ export const copySelectionToDot = async () => {
 
   nodeIds.forEach((id) => {
     const node = get(graph.nodes)[id];
-    subgraph.setNode(node.id, { label: get(node.attr.text) });
+    const attrs = deepUnwrap(node.attr);
+    subgraph.setNode(node.id, {
+      ...attrs,
+      // Set label separately so it looks nice on edotor
+      label: get(node.attr.text),
+    });
   });
 
   const edges = findEdgesInSubset(graph, nodeIds);

@@ -24,8 +24,8 @@
     // Update name of original node
     // dagre typing is incorrect, casting to unknown
     const graphName = (input.graph() as unknown as { id: string }).id;
-    const node = $nodes[$graphModalState.id];
-    node.attr.text.set(graphName);
+    const modalNode = $nodes[$graphModalState.id];
+    modalNode.attr.text.set(graphName);
 
     const layoutGraph = new dagre.graphlib.Graph();
 
@@ -37,31 +37,68 @@
       return {};
     });
 
-    input.nodes().forEach((id) =>
+    input.nodes().forEach((id) => {
       layoutGraph.setNode(id, {
         id,
         width: 100,
         height: 100,
-      }),
-    );
+        x: Number(input.node(id).x),
+        y: Number(input.node(id).y),
+      });
+    });
+
     input.edges().forEach((edge) => layoutGraph.setEdge(edge.v, edge.w));
 
-    dagre.layout(layoutGraph);
+    let layoutApplied = false;
+    if (
+      layoutGraph.nodes().some((id) => {
+        const { x, y } = layoutGraph.node(id);
+        return !x || !y;
+      })
+    ) {
+      console.log("Missing x, y attribute on some node. Laying out graph.");
+      dagre.layout(layoutGraph);
+      layoutApplied = true;
+    }
 
-    const offsetX = $graphModalState.x - layoutGraph.graph().width! / 2;
-    const offsetY = $graphModalState.y + 100;
+    const topMostNode = layoutGraph.nodes().reduce((topMost, node) => {
+      const { y } = layoutGraph.node(node);
+      if (layoutGraph.node(topMost).y > y) {
+        return node;
+      }
+      return topMost;
+    }, layoutGraph.nodes()[0]);
 
-    let topMostNode = layoutGraph.nodes()[0];
-    const dGraphNode = (name: string) => layoutGraph.node(name);
+    console.log("top most node", topMostNode);
+
+    const _centerNodes = () => {
+      const offsetX = $graphModalState.x - layoutGraph.graph().width! / 2;
+      const offsetY = $graphModalState.y + 100;
+      return (x: number, y: number) => {
+        return { x: x + offsetX, y: y + offsetY };
+      };
+    };
+
+    const _placeRelativeToNode = () => {
+      const { x, y } = layoutGraph.node(topMostNode);
+      const offsetX = $graphModalState.x - x;
+      const offsetY = $graphModalState.y + 100 - y;
+
+      return (x: number, y: number) => {
+        return { x: x + offsetX, y: y + offsetY };
+      };
+    };
+
+    const offsetFn = layoutApplied ? _centerNodes() : _placeRelativeToNode();
 
     layoutGraph.nodes().forEach((id) => {
-      const { x, y } = layoutGraph.node(id);
+      const { x: nodeX, y: nodeY } = layoutGraph.node(id);
       const { label } = input.node(id);
       const text = label || id;
-      renderNode(id, text, x + offsetX, y + offsetY);
-      if (dGraphNode(topMostNode).y > y) {
-        topMostNode = text;
-      }
+
+      const { x, y } = offsetFn(nodeX, nodeY);
+
+      renderNode(id, text, x, y);
     });
     layoutGraph.edges().forEach((edge) => {
       optimisticAddEdge(edge.v, edge.w);
