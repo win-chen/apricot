@@ -3,6 +3,7 @@
   import Panel from "src/components/Panel.svelte";
   import { initClient } from "src/graphql/client";
   import { onMount } from "svelte";
+  import TestWorker from "../src/local-persist/worker?worker";
   import GraphModal from "./components/GraphModal.svelte";
   import NodeEditor2 from "./components/NodeEditor.svelte";
   import InfiniteCanvasGraphContent from "./components/pixi-graph/InfiniteCanvasGraphContent.svelte";
@@ -22,6 +23,9 @@
   const { store: appDimensions, observer } = createResizeStore();
 
   interactionTracker.init(document);
+
+  const worker = new TestWorker();
+  worker.addEventListener("log", (event) => console.log("worker log", event));
 
   onMount(async () => {
     observer.observe(leftPanel);
