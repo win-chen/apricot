@@ -1,11 +1,30 @@
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import path from "path";
 import { defineConfig } from "vite";
-import * as rawFile from "vite-raw-plugin";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte(), rawFile.default({ fileRegex: /\.sql$/ })],
+  plugins: [
+    svelte(),
+    // TODO: move into own plugin file
+    {
+      name: "sql-files",
+      transform(src, id) {
+        // called when a file is transformed
+        // `src` is the file content, `id` is the file path
+        if (id.match(/\.sql$/)) {
+          // Transform the file
+          if (id.match(/\.sql$/)) {
+            // Return the file content as a string
+            return {
+              code: `export default ${JSON.stringify(src)};`, // The content of the SQL file as a string
+            };
+          }
+          return null; // return null if no transformation is applied
+        }
+      },
+    },
+  ],
   resolve: {
     alias: {
       src: path.resolve(__dirname, "src"),
