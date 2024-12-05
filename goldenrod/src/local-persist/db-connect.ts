@@ -1,5 +1,5 @@
 import sqlite3Worker1Promiser from "@sqlite.org/sqlite-wasm";
-import testsql from "../components/pixi-svelte/test.sql";
+import testsql from "../components/pixi-svelte/test.sql?raw";
 
 const log = console.log;
 const error = console.error;
