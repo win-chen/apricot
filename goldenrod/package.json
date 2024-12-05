@@ -19,6 +19,7 @@
     "@tsconfig/svelte": "^5.0.2",
     "@types/graphlib-dot": "^0.6.4",
     "@types/lodash.debounce": "^4.0.9",
+    "@types/serviceworker": "^0.0.107",
     "@types/uuid": "^10.0.0",
     "graphql": "^16.8.2",
     "svelte": "^4.2.12",
@@ -41,7 +42,6 @@
     "pixi.js": "^8.1.7",
     "svelte-fsm": "^1.2.0",
     "uuid": "^10.0.0",
-    "vite-raw-plugin": "^1.0.2",
     "wa-sqlite": "^1.0.0"
   }
 }

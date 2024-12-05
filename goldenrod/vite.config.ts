@@ -25,6 +25,26 @@ export default defineConfig({
       },
     },
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        index: "index.html",
+        "service-worker": "src/local-persist/service-worker.ts", // Service Worker entry point
+      },
+      output: {
+        entryFileNames: ({ facadeModuleId }) => {
+          if (
+            facadeModuleId &&
+            facadeModuleId?.indexOf("src/local-persist/service-worker.ts") > -1
+          ) {
+            return `[name].js`;
+          }
+          return "assets/[name].[hash].js";
+        },
+      },
+    },
+    manifest: true, // This will generate a manifest.json file
+  },
   resolve: {
     alias: {
       src: path.resolve(__dirname, "src"),
