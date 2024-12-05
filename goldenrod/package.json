@@ -40,6 +40,7 @@
     "immer": "^10.1.1",
     "jsdom": "^25.0.1",
     "lodash.debounce": "^4.0.8",
+    "microdiff": "^1.4.0",
     "pixi.js": "^8.1.7",
     "svelte-fsm": "^1.2.0",
     "uuid": "^10.0.0",
